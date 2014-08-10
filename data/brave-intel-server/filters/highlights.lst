@@ -1,0 +1,6 @@
+# Place line separated regex here to be highlighted in the logs
+# Must be lowercase
+#
+# Example
+# capital(s)?
+# spike(ed)?

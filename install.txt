@@ -1,0 +1,68 @@
+## Requirements ##
+## Requirements ##
+## Requirements ##
+
+MySQL, PHP, Tomcat, Python
+
+
+## Database ##
+## Database ##
+## Database ##
+
+- Create mysql schema
+    1. Apply schema.sql
+
+- Static Data Export
+    - Map generation requires mapSolarSystems table from SDE
+    - Tested with rubicon using https://www.fuzzwork.co.uk/dump/
+
+
+## Data ##
+## Data ##
+## Data ##
+
+- Filter settings
+    1. cd data/brave-intel-server/filter
+    2. Adapt files as needed
+
+- Map generation
+    1. cd data/map-generation
+    2. ./dotlan-download.sh
+    3. Replace any maps in the dotlan directory with manually downloaded maps containing jumpbridges
+    4. Edit dotlan-json.sh and update the mysql connection settings
+    5. ./dotlan-convert.sh
+    6. Copy dotlan/*.svg.json files to ../brave-intel-server/maps
+
+- Deployment
+    1. Make data/brave-intel-server readable to the tomcat process
+
+
+## Backend ##
+## Backend ##
+## Backend ##
+
+- Settings
+    1. Edit BraveIntelServer/src/de/schoar/braveintelserver/C.java
+	- Update mysql connection settings
+	- Update location of brave-intel-server data directory
+
+- Deploy
+    1. Import BraveIntelServer project into eclipse
+    2. Build project
+    3. Export as BraveIntelServer.war file
+    4. Copy BraveIntelServer.war into tomcat webapps folder
+
+
+## Frontend ##
+## Frontend ##
+## Frontend ##
+
+- Config
+    1. Copy config.php.dist to config.php
+    2. Edit config.php
+	- Update mysql connection settings
+	- Update brave core tokens
+
+- Auth
+    1. cd webroot/auth
+    2. composer install
