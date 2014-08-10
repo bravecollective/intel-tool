@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+
+	<display-name>BraveIntelServer</display-name>
+
+	<listener>
+		<listener-class>de.schoar.braveintelserver.servlet.ServletListener</listener-class>
+	</listener>
+
+	<servlet>
+		<description></description>
+		<display-name>ReportServlet</display-name>
+		<servlet-name>ReportServlet</servlet-name>
+		<servlet-class>de.schoar.braveintelserver.servlet.ReportServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReportServlet</servlet-name>
+		<url-pattern>/report</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<description></description>
+		<display-name>MapServlet</display-name>
+		<servlet-name>MapServlet</servlet-name>
+		<servlet-class>de.schoar.braveintelserver.servlet.MapServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MapServlet</servlet-name>
+		<url-pattern>/map</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<description></description>
+		<display-name>UserServlet</display-name>
+		<servlet-name>UserServlet</servlet-name>
+		<servlet-class>de.schoar.braveintelserver.servlet.UserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserServlet</servlet-name>
+		<url-pattern>/user</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<description></description>
+		<display-name>ReloadServlet</display-name>
+		<servlet-name>ReloadServlet</servlet-name>
+		<servlet-class>de.schoar.braveintelserver.servlet.ReloadServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ReloadServlet</servlet-name>
+		<url-pattern>/reload</url-pattern>
+	</servlet-mapping>
+</web-app>
