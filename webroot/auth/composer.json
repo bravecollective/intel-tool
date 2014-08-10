@@ -1,0 +1,15 @@
+{
+	"name": "bravecollective-intel",
+	"description": "Auth for intel",
+	"keywords": ["eve-online", "intel", "brave"],
+	"license": "MIT",
+	"repositories": [
+	    {
+		"url": "https://github.com/bravecollective/php-api.git",
+		"type": "git"
+	    }
+	],
+	"require": {
+		"bravecollective/php-api": "dev-master"
+	}
+}
