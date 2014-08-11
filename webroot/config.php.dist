@@ -10,7 +10,7 @@ $cfg_core_endpoint = 'https://core.braveineve.com/api';
 $cfg_url_base = 'http://intel.bravecollective.com';
 $cfg_url_auth_init = $cfg_url_base . '/?nav=init';
 $cfg_url_auth_success = $cfg_url_base . '/?nav=verify';
-$cfg_url_auth_fail = $cfg_url_base . '/?nav=';
+$cfg_url_auth_fail = $cfg_url_base . '/?nav=error';
 
 $cfg_core_application_id = '';
 $cfg_core_public_key = '';

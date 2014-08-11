@@ -54,6 +54,14 @@ if ($authResult === false) {
 	    tpl_footer();
 	}
 
+    if ($pNav == "error") {
+	tpl_header();
+	tpl_nav_empty();
+	tpl_auth_error();
+	tpl_footer();
+	return;
+    }
+
 	return;
     }
 

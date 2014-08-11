@@ -13,7 +13,7 @@
 	<div class="navbar-collapse collapse navbar-inverse-collapse pull-right">
 	    <ul class="nav navbar-nav">
 		<?php if ($active == 'map') require('tpl_nav_map.php'); ?>
-		<li <?php if ($active == "map") echo "class='active'"; ?>><a href="?">Map</a></li>
+		<li <?php if ($active == "map") echo "class='active'"; ?>><a href="/">Map</a></li>
 		<li <?php if ($active == "uploader") echo "class='active'"; ?>><a href="?nav=uploader">Uploader</a></li>
 		<li class="dropdown">
 		    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $name ?> <b class="caret"></b></a>
