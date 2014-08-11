@@ -41,6 +41,11 @@ function authSession($charId, $charName) {
     $stm->bindValue(':sessionId', $cookie);
     $stm->bindValue(':createdAt', time());
     if (!$stm->execute()) { die('sql error'); };
+
+    $stm = $dbr->prepare('UPDATE uploader SET createdAt = :createdAt WHERE charId = :charId;');
+    $stm->bindValue(':charId', $charId);
+    $stm->bindValue(':createdAt', time());
+    if (!$stm->execute()) { die('sql error'); };
 }
 
 function authUploaderToken() {
@@ -50,10 +55,6 @@ function authUploaderToken() {
     if ($user === false) {
 	return false;
     }
-
-    $stm = $dbr->prepare('DELETE FROM uploader WHERE createdAt < :time;');
-    $stm->bindValue(':time', time() - $cfg_expire_uploader);
-    if (!$stm->execute()) { die('sql error'); };
 
     $stm = $dbr->prepare('SELECT * FROM uploader WHERE charId = :charId;');
     $stm->bindValue(':charId', $user[0]);
