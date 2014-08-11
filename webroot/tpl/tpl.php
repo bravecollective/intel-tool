@@ -34,6 +34,10 @@ function tpl_uploader() {
     require("tpl/tpl_uploader.php");
 }
 
+function tpl_help() {
+    require("tpl/tpl_help.php");
+}
+
 // -------------------------------------------------
 
 function tpl_error() {

@@ -90,6 +90,14 @@ if ($authResult === false) {
 	return;
     }
 
+    if ($pNav == "help") {
+	tpl_header();
+	tpl_nav($authCharName, $pNav);
+	tpl_help();
+	tpl_footer(array('js/intel_settings.js'));
+	return;
+    }
+
     if ($pNav == "uploader") {
 	tpl_header();
 	tpl_nav($authCharName, $pNav);
