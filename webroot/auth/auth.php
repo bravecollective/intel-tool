@@ -4,10 +4,11 @@
 function authCheck() {
     global $dbr, $cfg_cookie_name, $cfg_expire_session, $cfg_expire_uploader;
 
-    $cookie = preg_replace("/[^A-Za-z0-9]/", '', $_COOKIE[$cfg_cookie_name]);
-    if (empty($cookie)) {
+    if (!isset($_COOKIE[$cfg_cookie_name])) {
 	return false;
     }
+
+    $cookie = preg_replace("/[^A-Za-z0-9]/", '', $_COOKIE[$cfg_cookie_name]);
 
     $stm = $dbr->prepare('DELETE FROM session WHERE createdAt < :time;');
     $stm->bindValue(':time', time() - $cfg_expire_session);

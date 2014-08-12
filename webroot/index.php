@@ -15,7 +15,10 @@ require("auth/auth.php");
 
 $authResult = authCheck();
 
+$pNav = "";
+if (isset($_GET["nav"])) {
     $pNav = preg_replace("/[^a-z]/", '', $_GET['nav']);
+}
 
 if ($authResult === false) {
 
@@ -23,7 +26,7 @@ if ($authResult === false) {
 	tpl_header();
 	tpl_nav_empty();
 	tpl_auth_needed();
-	tpl_footer();
+	tpl_footer(array());
 	return;
     }
 
@@ -32,7 +35,7 @@ if ($authResult === false) {
 	    tpl_header();
 	    tpl_nav_empty();
 	    tpl_auth_error();
-	    tpl_footer();
+	    tpl_footer(array());
 	}
 	return;
     }
@@ -44,21 +47,21 @@ if ($authResult === false) {
 	    tpl_header();
 	    tpl_nav_empty();
 	    tpl_auth_error();
-	    tpl_footer();
+	    tpl_footer(array());
 	}
 
 	if ($verify === false) {
 	    tpl_header();
 	    tpl_nav_empty();
 	    tpl_auth_negative();
-	    tpl_footer();
+	    tpl_footer(array());
 	}
 
     if ($pNav == "error") {
 	tpl_header();
 	tpl_nav_empty();
 	tpl_auth_error();
-	tpl_footer();
+	tpl_footer(array());
 	return;
     }
 
@@ -69,8 +72,7 @@ if ($authResult === false) {
     $authCharId = $authResult[0];
     $authCharName = $authResult[1];
 
-    $pNav = preg_replace("/[^a-z]/", '', $_GET['nav']);
-    if (empty($pNav)) {
+    if ($pNav == "") {
 	$pNav = "map";
     }
 
@@ -109,7 +111,7 @@ if ($authResult === false) {
     tpl_header();
     tpl_nav_empty();
     tpl_error();
-    tpl_footer();
+    tpl_footer(array());
 }
 
 ?>
