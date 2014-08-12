@@ -10,7 +10,7 @@ public class C {
 
 	public final static String AUTH_COOKIE_NAME = "brave-auth-intel";
 
-	public final static long POLL_INTERVAL = 1000 * 4;
+	public final static long POLL_INTERVAL = 1000 * 6;
 
 	public final static long REPORT_CLEAN_INTERVAL = 1000 * 60 * 1;
 	public final static long REPORT_CLEAN_EXPIRE = 1000 * 60 * 90;
@@ -20,5 +20,9 @@ public class C {
 
 	public final static long UPLOADER_COUNT_INTERVAL = 1000 * 60 * 1;
 	public final static long UPLOADER_COUNT_EXPIRE = 1000 * 60 * 2;
+
+	public final static long VIEWER_COUNT_INTERVAL = 1000 * 60 * 1;
+	public final static long VIEWER_COUNT_EXPIRE = 1000 * 60 * 1;
+	
 
 }

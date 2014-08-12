@@ -21,6 +21,8 @@ public class ServletListener implements ServletContextListener {
 	private static final MapStorage maps = new MapStorage();
 	private static final ExpiringCounter uploaderCount = new ExpiringCounter(
 			C.UPLOADER_COUNT_INTERVAL, C.AUTH_CLEAN_EXPIRE);
+	private static final ExpiringCounter viewerCount = new ExpiringCounter(
+			C.UPLOADER_COUNT_INTERVAL, C.AUTH_CLEAN_EXPIRE);
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
@@ -72,5 +74,8 @@ public class ServletListener implements ServletContextListener {
 	public static ExpiringCounter getUploaderCounter() {
 		return uploaderCount;
 	}
-
+	
+	public static ExpiringCounter getViwerCounter() {
+		return viewerCount;
+	}
 }
