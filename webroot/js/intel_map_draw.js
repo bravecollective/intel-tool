@@ -3,6 +3,8 @@
 var drawUrl = "/BraveIntelServer/map";
 
 var drawData = {};
+var drawMapAll = true;
+var drawCacheData;
 
 var drawReady = false;
 
@@ -20,7 +22,9 @@ $(document).ready(function() {
 	clearTimeout(resizeTimer);
 	resizeTimer = setTimeout(drawResize, 300);
     });
-    drawLoad('Catch');
+    setTimeout(function(){
+	drawLoad('Catch');
+    }, 1000);
 });
 
 // ---------------------------------------------------------------
@@ -69,6 +73,7 @@ function drawResize() {
     var ctx = canvas.getContext('2d');
     ctx.scale(drawScale, drawScale);
 
+    drawMapAll = true;
     drawMap();
     drawDivs();
 }
@@ -81,12 +86,12 @@ function drawClear() {
     ctx.clearRect(0, 0, 4096, 4096);
 }
 
+
 function drawMap() {
     if (!drawReady) {
 	return;
     }
 
-    drawClear();
 
     var ctx = document.getElementById('canvas').getContext('2d');
 
@@ -94,16 +99,24 @@ function drawMap() {
     ctx.shadowOffsetY = 2;
     ctx.shadowColor = '#000000';
 
-    drawConnections(ctx, true);
-    //drawBridges(ctx, true);
+    if (drawMapAll == true) {
+	drawClear();
+	drawMapAll = false;
+	drawConnections(ctx, true);
+	//drawBridges(ctx, true);
 
-    drawConnections(ctx, false);
-    drawBridges(ctx, false);
+	drawConnections(ctx, false);
+	drawBridges(ctx, false);
 
-    drawSystems(ctx, true);
+	drawSystemNames(ctx);
+	drawSystems(ctx, true);
+
+	drawCacheData = ctx.getImageData(0,0,canvas.width, canvas.height);
+    } else {
+	ctx.putImageData(drawCacheData,0,0);
+    }
+
     drawSystems(ctx, false);
-
-    drawSystemNames(ctx);
     drawSystemSelects(ctx);
 }
 
