@@ -1,0 +1,1 @@
+curl -X PUT -d '{ "version": "23", "token": "secret token", "status": "running", "text": "[ 2014.08.13 19:58:43 ] kiu Nakamura > This is an example report!" }' http://localhost:8080/BraveIntelServer/report
