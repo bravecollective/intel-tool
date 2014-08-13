@@ -112,8 +112,7 @@ function settingsDoBackground() {
     var value = settingsGet('s-background-image');
     $('body').css("background", "#000000");
     if (value > 0) {
-	$('body').css('background', 'url("img/bg' + value + '.jpg") no-repeat');
-	$('body').css('background-attachment', 'fixed');
+	$('body').css('background', '#000000 url("img/bg' + value + '.jpg") center center fixed no-repeat');
 	$('body').css('-webkit-background-size', 'cover');
 	$('body').css('-moz-background-size', 'cover');
 	$('body').css('-o-background-size', 'cover');
