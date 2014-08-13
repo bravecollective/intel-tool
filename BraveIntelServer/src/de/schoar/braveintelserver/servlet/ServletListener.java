@@ -43,6 +43,9 @@ public class ServletListener implements ServletContextListener {
 		uploaders.stop();
 		reports.stop();
 
+		viewerCount.stop();
+		uploaderCount.stop();
+
 		System.err.println("*** Stopped "
 				+ sce.getServletContext().getContextPath() + " ***");
 	}
@@ -74,7 +77,7 @@ public class ServletListener implements ServletContextListener {
 	public static ExpiringCounter getUploaderCounter() {
 		return uploaderCount;
 	}
-	
+
 	public static ExpiringCounter getViwerCounter() {
 		return viewerCount;
 	}
