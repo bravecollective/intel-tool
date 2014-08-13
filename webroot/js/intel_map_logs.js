@@ -5,17 +5,6 @@ var logsFilterUnknowns = true;
 
 // ---------------------------------------------------------------
 
-$(document).ready(function() {
-    logsFilterRefresh();
-
-    setInterval(function() {
-	console.log("Timer: refreshing timestamps");
-	logsRefreshTimestamps();
-    }, 15000);
-});
-
-// ---------------------------------------------------------------
-
 function logsClear() {
     $("#logs > tr").each(function() {
 	if (!$(this).hasClass("keep")) {
@@ -50,8 +39,6 @@ function logsRefresh() {
 	    }
 	}
     });
-
-    logsRefreshTimestamps();
 }
 
 function logsAdd(report) {
@@ -79,19 +66,6 @@ function logsRefreshTimestamps() {
 	    $(this).css('color', '');
 	}
     });
-    drawMap();
-}
-
-// ---------------------------------------------------------------
-
-function logsFilterUnknownsToggle() {
-    logsFilterUnknowns = !logsFilterUnknowns;
-    logsFilterRefresh();
-}
-
-function logsFilterUnknownsSet(value) {
-    logsFilterUnknowns = value;
-    logsFilterRefresh();
 }
 
 // ---------------------------------------------------------------
@@ -101,6 +75,17 @@ function logsFilterSystemsClear() {
     logsFilterUnknownsSet(true);
 }
 
+// ---------------------------------------------------------------
+
+function logsFilterUnknownsToggle() {
+    logsFilterUnknowns = !logsFilterUnknowns;
+}
+
+function logsFilterUnknownsSet(value) {
+    logsFilterUnknowns = value;
+}
+
+// ---------------------------------------------------------------
 
 function logsFilterSystemToggle(name) {
     logsFilterSystemsToggle([name]);
@@ -125,7 +110,6 @@ function logsFilterSystemsAdd(names) {
 	    logsFilterSystems.push(names[i]);
 	}
     }
-    logsFilterRefresh();
 }
 
 
@@ -145,7 +129,6 @@ function logsFilterSystemsRemove(names) {
     for (i in names) {
 	logsFilterSystems.splice( $.inArray(names[i], logsFilterSystems), 1 );
     }
-    logsFilterRefresh();
 }
 
 // ---------------------------------------------------------------
@@ -165,12 +148,9 @@ function logsFilterRefresh() {
     });
 
     for (i in logsFilterSystems) {
-	cnt = '<button type="button" class="btn btn-xs btn-success" onclick="logsFilterSystemRemove(\'' + logsFilterSystems[i] + '\');">' + logsFilterSystems[i] + '</button> ';
+	cnt = '<button type="button" class="btn btn-xs btn-success" onclick="logsFilterSystemRemove(\'' + logsFilterSystems[i] + '\'); applyFilter();">' + logsFilterSystems[i] + '</button> ';
 	$('#sysfilter').append(cnt);
     }
-
-    logsRefresh();
-    drawMap();
 }
 
 // ---------------------------------------------------------------

@@ -31,7 +31,6 @@ function drawLoad(map) {
 
     $.ajax({
 	async: true,
-//	url: 'map/' + map + '.svg.json',
 	url: drawUrl + '?region=' + map,
 	mimeType: "application/json",
 	dataType: 'json',

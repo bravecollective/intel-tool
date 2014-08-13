@@ -1,14 +1,46 @@
 // ---------------------------------------------------------------
 
+var timerUI = 0;
+
 $(document).ready(function() {
     fixLegend();
+    applyFilter();
 });
+
+// ---------------------------------------------------------------
+
+function queueUIRefresh() {
+    if (timerUI != 0) {
+	clearTimeout(timerUI);
+    }
+    timerUI = setTimeout(function() {
+	    applyUI();
+    }, 10000);
+                                                                                                        
+}
+
+function applyFilter() {
+    logsFilterRefresh();
+    applyData();
+}
+
+function applyData() {
+    logsRefresh();
+    applyUI();
+}
+
+function applyUI() {
+    queueUIRefresh();
+    logsRefreshTimestamps();
+    drawMap();
+}
 
 // ---------------------------------------------------------------
 
 function mapSystemClicked(name) {
     if ($.inArray(name, logsFilterSystems) != -1) {
 	logsFilterSystemRemove(name);
+	applyFilter();
 	return;
     }
 
@@ -31,6 +63,8 @@ function mapSystemClicked(name) {
 	    logsFilterUnknownsSet(true);
 	    break;
     }
+
+    applyFilter();
 }
 
 function logsSystemsClicked(names) {
@@ -53,6 +87,8 @@ function logsSystemsClicked(names) {
 	    logsFilterUnknownsSet(true);
 	    break;
     }
+
+    applyFilter();
 }
 
 // ---------------------------------------------------------------

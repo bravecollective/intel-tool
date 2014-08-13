@@ -18,9 +18,9 @@
     <div style="position:absolute; top:60px; bottom:10px; left:71%; right:0px; padding-right:5px; margin-bottom:5px; overflow-y:scroll; z-index:-1;">
 	<p style="line-height:200%;">
 	    <label>Systems</label> <span class="text-muted">click to remove or toggle</span>
-	    <span class="pull-right"><button type="button" class="btn btn-link btn-xs" onclick="logsFilterSystemsClear();">clear filters</button></span>
+	    <span class="pull-right"><button type="button" class="btn btn-link btn-xs" onclick="logsFilterSystemsClear(); applyFilter();">clear filters</button></span>
 	    <br>
-	    <button type="button" id="filter-unknown" class="btn btn-default btn-xs" onclick="logsFilterUnknownsToggle();">Unknown</button>
+	    <button type="button" id="filter-unknown" class="btn btn-default btn-xs" onclick="logsFilterUnknownsToggle(); applyFilter();">Unknown</button>
 	    <span id="sysfilter"></span>
 	</p>
 
