@@ -81,7 +81,7 @@ public class ReportServlet extends BaseServlet {
 
 		System.out.println("PUT: " + upload.text + " -- "
 				+ session.getCharName() + " v" + upload.version + " ["
-				+ req.getRemoteAddr() + "]");
+				+ req.getHeader("X-Real-IP") + "]");
 
 		if ("stop".equals(upload.status)) {
 			ServletListener.getUploaderCounter().remove(upload.token);
