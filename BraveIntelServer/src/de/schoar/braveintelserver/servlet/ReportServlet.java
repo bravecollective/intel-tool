@@ -34,7 +34,7 @@ public class ReportServlet extends BaseServlet {
 
 		// ----------
 
-		ServletListener.getViwerCounter().add(session.getCharName());
+		ServletListener.getViewerCounter().add(session.getSessionId());
 
 		long rangeFrom = Helper.parseLongOrZero(req.getParameter("since"));
 		long rangeTo = System.currentTimeMillis();
@@ -46,7 +46,7 @@ public class ReportServlet extends BaseServlet {
 		res.reports = ServletListener.getReportStorage()
 				.get(rangeFrom, rangeTo);
 		res.submitterCount = ServletListener.getUploaderCounter().getCount();
-		res.viewerCount = ServletListener.getViwerCounter().getCount();
+		res.viewerCount = ServletListener.getViewerCounter().getCount();
 
 		resp.setStatus(200);
 		resp.getOutputStream().write(new Gson().toJson(res).getBytes());
@@ -81,7 +81,7 @@ public class ReportServlet extends BaseServlet {
 
 		System.out.println("PUT: " + upload.text + " -- "
 				+ session.getCharName() + " v" + upload.version + " ["
-				+ req.getHeader("X-Real-IP") + "]");
+				+ req.getHeader("X-Real-IP") + "] -- " + upload.status);
 
 		if ("stop".equals(upload.status)) {
 			ServletListener.getUploaderCounter().remove(upload.token);

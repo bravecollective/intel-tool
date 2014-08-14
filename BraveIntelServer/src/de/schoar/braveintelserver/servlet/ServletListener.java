@@ -78,7 +78,7 @@ public class ServletListener implements ServletContextListener {
 		return uploaderCount;
 	}
 
-	public static ExpiringCounter getViwerCounter() {
+	public static ExpiringCounter getViewerCounter() {
 		return viewerCount;
 	}
 }
