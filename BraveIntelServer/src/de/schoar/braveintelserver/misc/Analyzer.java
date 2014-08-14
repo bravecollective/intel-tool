@@ -10,8 +10,6 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringEscapeUtils;
-
 import com.google.gson.Gson;
 
 import de.schoar.braveintelserver.C;
@@ -25,13 +23,12 @@ public class Analyzer {
 	private Map<String, String> replaces = new HashMap<String, String>();
 
 	private final Pattern patternWords = Pattern
-			.compile("(.*?)[\\ \\,\\.\\:\\;\\/\\*\\_\\+\\!\\?\\>\\r\\n\\(\\)\\[\\])]+");
+			.compile("(.*?)[\\ \\,\\.\\:\\;\\/\\*\\_\\&\\+\\!\\?\\r\\n\\(\\)\\[\\])]+");
 
 	private final Pattern patternUrl = Pattern
 			.compile("http(s)?://[a-zA-Z0-9\\-\\.\\/\\?\\&\\%\\=\\_]+");
 
 	public void load() {
-
 		systems.clear();
 		new LineReader() {
 			@Override
@@ -71,9 +68,14 @@ public class Analyzer {
 	}
 
 	public void analyze(Report report) {
-		String line = StringEscapeUtils.escapeHtml4(report.textRaw) + " ";
-		Matcher matcher;
+		String line = report.textRaw + " ";
+		line = line.replaceAll("<", "&lt;");
+		line = line.replaceAll(">", "&gt;");
+		line = line.replaceAll("'", "&apos;");
+		line = line.replaceAll("`", "&apos;");
+		line = line.replaceAll("\"", "&quot;");
 
+		Matcher matcher;
 		matcher = patternUrl.matcher(line);
 		while (matcher.find()) {
 			String all = matcher.group(0);
