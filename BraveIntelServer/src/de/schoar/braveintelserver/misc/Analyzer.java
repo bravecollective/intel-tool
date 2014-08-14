@@ -10,6 +10,8 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import com.google.gson.Gson;
 
 import de.schoar.braveintelserver.C;
@@ -69,7 +71,7 @@ public class Analyzer {
 	}
 
 	public void analyze(Report report) {
-		String line = report.textRaw + " ";
+		String line = StringEscapeUtils.escapeHtml4(report.textRaw) + " ";
 		Matcher matcher;
 
 		matcher = patternUrl.matcher(line);
