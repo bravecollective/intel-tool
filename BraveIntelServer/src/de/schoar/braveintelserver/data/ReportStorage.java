@@ -65,9 +65,11 @@ public class ReportStorage {
 		for (Report r : new LinkedList<Report>(matched)) {
 			if (r.submittedAt <= from) {
 				matched.remove(r);
+				continue;
 			}
 			if (r.submittedAt > to) {
 				matched.remove(r);
+				continue;
 			}
 		}
 		return matched;
