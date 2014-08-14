@@ -1,6 +1,7 @@
 package de.schoar.braveintelserver;
 
 public class C {
+	public final static boolean DEBUG = false;
 
 	public final static String DATABASE_CONN = "jdbc:mysql://localhost:3306/intel";
 	public final static String DATABASE_USER = "root";
@@ -23,6 +24,5 @@ public class C {
 
 	public final static long VIEWER_COUNT_INTERVAL = 1000 * 60 * 1;
 	public final static long VIEWER_COUNT_EXPIRE = 1000 * 60 * 1;
-	
 
 }

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.stream.MalformedJsonException;
 
-import de.schoar.braveintelserver.C;
 import de.schoar.braveintelserver.auth.Session;
 import de.schoar.braveintelserver.data.IntelResponse;
 import de.schoar.braveintelserver.data.IntelUpload;
@@ -25,10 +24,8 @@ public class ReportServlet extends BaseServlet {
 
 		// ----------
 
-		String token = Helper.getCookie(C.AUTH_COOKIE_NAME, req.getCookies());
-		Session session = ServletListener.getUserLookup().validate(token);
+		Session session = authUser(req, resp);
 		if (session == null) {
-			send401(resp);
 			return;
 		}
 
@@ -66,12 +63,13 @@ public class ReportServlet extends BaseServlet {
 			return;
 		}
 
-		Session session = ServletListener.getUploaderLookup().validate(
-				upload.token);
+		// ----------
+		Session session = authUploader(upload.token, resp);
 		if (session == null) {
-			send401(resp);
 			return;
 		}
+
+		// ----------
 
 		// if (upload.version.length() == 0
 		// || "Development".equals(upload.version)) {
@@ -79,9 +77,13 @@ public class ReportServlet extends BaseServlet {
 		// return;
 		// }
 
+		// ----------
+
 		System.out.println("PUT: " + upload.text + " -- "
 				+ session.getCharName() + " v" + upload.version + " ["
 				+ req.getHeader("X-Real-IP") + "] -- " + upload.status);
+
+		// ----------
 
 		if ("stop".equals(upload.status)) {
 			ServletListener.getUploaderCounter().remove(upload.token);
@@ -89,7 +91,11 @@ public class ReportServlet extends BaseServlet {
 			ServletListener.getUploaderCounter().add(upload.token);
 		}
 
+		// ----------
+
 		ServletListener.getReportStorage().add(upload.text);
+
+		// ----------
 
 		resp.setStatus(200);
 		resp.getOutputStream().write("OK\n".getBytes());

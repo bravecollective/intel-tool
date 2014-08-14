@@ -6,6 +6,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import de.schoar.braveintelserver.auth.Session;
+
 public class ReloadServlet extends BaseServlet {
 
 	private static final long serialVersionUID = 2014915983817701342L;
@@ -13,6 +15,13 @@ public class ReloadServlet extends BaseServlet {
 	@Override
 	protected void get(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+
+		// ----------
+
+		Session session = authUser(req, resp);
+		if (session == null) {
+			return;
+		}
 
 		// ----------
 

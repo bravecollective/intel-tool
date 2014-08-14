@@ -7,6 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import de.schoar.braveintelserver.C;
+import de.schoar.braveintelserver.auth.Session;
+import de.schoar.braveintelserver.misc.Helper;
+
 public abstract class BaseServlet extends javax.servlet.http.HttpServlet
 		implements javax.servlet.Servlet {
 
@@ -53,6 +57,39 @@ public abstract class BaseServlet extends javax.servlet.http.HttpServlet
 		// ----------
 
 		put(req, resp);
+	}
+
+	protected Session authUser(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
+		String token = Helper.getCookie(C.AUTH_COOKIE_NAME, req.getCookies());
+		Session session = ServletListener.getUserLookup().validate(token);
+		if (session == null && C.DEBUG) {
+			return new Session(23, "Debug User", "mysecretusertoken",
+					System.currentTimeMillis());
+		}
+
+		if (session == null) {
+			send401(resp);
+			return null;
+		}
+
+		return session;
+	}
+
+	protected Session authUploader(String token, HttpServletResponse resp)
+			throws IOException {
+		Session session = ServletListener.getUploaderLookup().validate(token);
+		if (session == null && C.DEBUG) {
+			return new Session(23, "Debug Uploader", "mysecretuploadertoken",
+					System.currentTimeMillis());
+		}
+
+		if (session == null) {
+			send401(resp);
+			return null;
+		}
+
+		return session;
 	}
 
 	protected void sendNotReady(HttpServletResponse res) throws IOException {

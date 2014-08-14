@@ -6,9 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import de.schoar.braveintelserver.C;
 import de.schoar.braveintelserver.auth.Session;
-import de.schoar.braveintelserver.misc.Helper;
 
 public class MapServlet extends BaseServlet {
 
@@ -20,10 +18,8 @@ public class MapServlet extends BaseServlet {
 
 		// ----------
 
-		String token = Helper.getCookie(C.AUTH_COOKIE_NAME, req.getCookies());
-		Session session = ServletListener.getUserLookup().validate(token);
+		Session session = authUser(req, resp);
 		if (session == null) {
-			send401(resp);
 			return;
 		}
 
