@@ -9,8 +9,8 @@ var drawCacheData;
 var drawReady = false;
 
 var drawSystemSize = 12;
-var drawSystemOffsetX = 22;
-var drawSystemOffsetY = 8;
+var drawSystemOffsetX = 28;
+var drawSystemOffsetY = 14;
 
 var drawScale = 1.0;
 
@@ -122,6 +122,7 @@ function drawMap() {
 
 function drawConnections(ctx, shadow) {
     ctx.shadowBlur = 8;
+    ctx.lineWidth = 3;
 
     for (i in drawData['map']['connections']) {
 	x1 = drawData['map']['connections'][i]['x1'];
@@ -168,7 +169,7 @@ function drawBridges(ctx, shadow) {
 	ctx.moveTo(x1,y1);
 	ctx.quadraticCurveTo(x2,y2, x3,y3)
     }
-    ctx.stroke(); 
+    ctx.stroke();
 }
 
 function drawSystems(ctx, shadow) {
@@ -180,14 +181,15 @@ function drawSystems(ctx, shadow) {
 	name = drawData['map']['systems'][i]['name'];
 	stn = drawData['map']['systems'][i]['hasStation'];
 
+
 	if (shadow === true) {
 
 	    ctx.fillStyle = '#000000';
 	    if (stn) {
-		ctx.fillRect (x + drawSystemOffsetX - 2, y + drawSystemOffsetY - 2, drawSystemSize + 4, drawSystemSize + 4);
+		ctx.fillRect (x + drawSystemOffsetX - drawSystemSize/2 - 2, y + drawSystemOffsetY - drawSystemSize/2 - 2, drawSystemSize + 4, drawSystemSize + 4);
 	    } else {
 		ctx.beginPath();
-		ctx.arc(x + drawSystemOffsetX + drawSystemSize/2, y + drawSystemOffsetY + drawSystemSize/2, drawSystemSize/2 + 2, 0, 2 * Math.PI);
+		ctx.arc(x + drawSystemOffsetX, y + drawSystemOffsetY, drawSystemSize/2 + 2, 0, 2 * Math.PI);
 		ctx.fill();
 	    }
 
@@ -201,13 +203,12 @@ function drawSystems(ctx, shadow) {
 	    }
 
 	    if (stn) {
-		ctx.fillRect (x + drawSystemOffsetX, y + drawSystemOffsetY, drawSystemSize, drawSystemSize);
+		ctx.fillRect (x + drawSystemOffsetX - drawSystemSize/2, y + drawSystemOffsetY  - drawSystemSize/2, drawSystemSize, drawSystemSize);
 	    } else {
 		ctx.beginPath();
-		ctx.arc(x + drawSystemOffsetX + drawSystemSize/2, y + drawSystemOffsetY + drawSystemSize/2, drawSystemSize/2, 0, 2 * Math.PI);
+		ctx.arc(x + drawSystemOffsetX, y + drawSystemOffsetY, drawSystemSize/2, 0, 2 * Math.PI);
 		ctx.fill();
 	    }
-
 
 	}
     }
@@ -223,7 +224,7 @@ function drawSystemNames(ctx) {
 	y = Math.floor(drawData['map']['systems'][i]['y']);
 	name = drawData['map']['systems'][i]['name'];
 
-	ctx.fillText(name, x + drawSystemOffsetX + drawSystemSize + 4, y + drawSystemOffsetX - drawSystemSize - 2);
+	ctx.fillText(name, x + drawSystemOffsetX + drawSystemSize/2 + 8, y + drawSystemOffsetY - 6);
     }
 }
 
@@ -243,11 +244,11 @@ function drawSystemSelects(ctx) {
 	if ($.inArray(name, logsFilterSystems) != -1) {
 	    if (stn) {
 		ctx.beginPath();
-		ctx.strokeRect (x + drawSystemOffsetX - border / 2, y + drawSystemOffsetY - border / 2, drawSystemSize + border, drawSystemSize + border);
+		ctx.strokeRect (x + drawSystemOffsetX - drawSystemSize/2 - border/2, y + drawSystemOffsetY - drawSystemSize/2 - border/2, drawSystemSize + border, drawSystemSize + border);
 		ctx.stroke();
 	    } else {
 		ctx.beginPath();
-		ctx.arc(x + drawSystemOffsetX + drawSystemSize/2, y + drawSystemOffsetY + drawSystemSize/2, drawSystemSize/2 + border / 2, 0, 2 * Math.PI);
+		ctx.arc(x + drawSystemOffsetX, y + drawSystemOffsetY, drawSystemSize/2 + border / 2, 0, 2 * Math.PI);
 		ctx.stroke();
 	    }
 	}
@@ -255,7 +256,9 @@ function drawSystemSelects(ctx) {
 }
 
 function drawDivs() {
-    size = (drawSystemSize + 8) * drawScale;
+    border = 8;
+    dw = (drawSystemSize + border) * drawScale;
+    dh = (drawSystemSize + border) * drawScale;
 
     $("#map > div").each(function() {
 	$(this).remove();
@@ -268,8 +271,8 @@ function drawDivs() {
 	name = drawData['map']['systems'][i]['name'];
 	stn = drawData['map']['systems'][i]['hasStation'];
 
-	dx = (x + drawSystemOffsetX - 4) * drawScale;
-	dy = (y + drawSystemOffsetY - 4) * drawScale;
+	dx = (x + drawSystemOffsetX - drawSystemSize/2 - border/2) * drawScale;
+	dy = (y + drawSystemOffsetY - drawSystemSize/2 - border/2) * drawScale;
 
 	style = "";
 	if (!stn) {
@@ -278,7 +281,7 @@ function drawDivs() {
 
 	cnt = "";
 	cnt += "<div id='blink-" + name + "'";
-	cnt += " style='position: absolute; left: " +  dx + "px; top: " +  dy + "px; width: " + size + "px; height: " + size + "px; cursor: pointer; z-index:1; background-color: #FF0000; opacity: 0; " + style + "'";
+	cnt += " style='position: absolute; left: " +  dx + "px; top: " +  dy + "px; width: " + dw + "px; height: " + dh + "px; cursor: pointer; z-index:1; background-color: #FF0000; opacity: 0; " + style + "'";
 	cnt += " onclick='mapSystemClicked(\"" + name + "\");'></div>";
 	$("#map").append(cnt);
     }
