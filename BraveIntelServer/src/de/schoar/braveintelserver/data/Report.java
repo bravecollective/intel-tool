@@ -3,14 +3,16 @@ package de.schoar.braveintelserver.data;
 import java.util.Set;
 import java.util.TreeSet;
 
+import de.schoar.braveintelserver.misc.Helper;
 import de.schoar.braveintelserver.servlet.ServletListener;
 
 public class Report {
 
-	private String reporter = "";
-	private long submittedAt = System.currentTimeMillis();
-	transient private String textRaw = "";
 	transient private Set<String> submitters = new TreeSet<String>();
+	private String reporter;
+	transient private String textRaw;
+
+	private long submittedAt = System.currentTimeMillis();
 	transient private int submitterCountAtCreation = ServletListener
 			.getUploaderCounter().getCount();
 
@@ -66,7 +68,20 @@ public class Report {
 		if (o == null) {
 			return false;
 		}
-		return textRaw.equals(((Report) o).getTextRaw());
+
+		if (!(o instanceof Report)) {
+			return false;
+		}
+
+		Report r = (Report) o;
+		if (!Helper.equalsNull(this.textRaw, r.getTextRaw())) {
+			return false;
+		}
+		if (!Helper.equalsNull(this.reporter, r.getReporter())) {
+			return false;
+		}
+
+		return true;
 	}
 
 }
