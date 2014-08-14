@@ -8,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.schoar.braveintelserver.C;
-import de.schoar.braveintelserver.servlet.ServletListener;
 
 public class ReportStorage {
 
@@ -42,19 +41,13 @@ public class ReportStorage {
 
 		synchronized (reports) {
 			for (Report re : new LinkedList<Report>(reports)) {
-				if (intel.equals(re.textRaw)) {
-					re.submittedCount++;
+				if (intel.equals(re.getTextRaw())) {
+					re.incSubmittedCount();
 					return false;
 				}
 			}
 
-			Report r = new Report();
-			r.reporter = reporter;
-			r.submittedAt = System.currentTimeMillis();
-			r.submittedCount = 1;
-			r.textRaw = intel;
-			ServletListener.getAnalyzer().analyze(r);
-			reports.add(r);
+			reports.add(new Report(reporter, intel));
 			return true;
 		}
 	}
@@ -63,11 +56,11 @@ public class ReportStorage {
 		List<Report> matched = new LinkedList<Report>(reports);
 
 		for (Report r : new LinkedList<Report>(matched)) {
-			if (r.submittedAt <= from) {
+			if (r.getSubmittedAt() <= from) {
 				matched.remove(r);
 				continue;
 			}
-			if (r.submittedAt > to) {
+			if (r.getSubmittedAt() > to) {
 				matched.remove(r);
 				continue;
 			}
@@ -78,7 +71,7 @@ public class ReportStorage {
 	private void clean() {
 		long now = System.currentTimeMillis();
 		for (Report r : new LinkedList<Report>(reports)) {
-			if (now - r.submittedAt < C.REPORT_CLEAN_EXPIRE) {
+			if (now - r.getSubmittedAt() < C.REPORT_CLEAN_EXPIRE) {
 				continue;
 			}
 			reports.remove(r);

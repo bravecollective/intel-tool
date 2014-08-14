@@ -1,5 +1,9 @@
 package de.schoar.braveintelserver.servlet;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -28,6 +32,12 @@ public class ServletListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent sce) {
 		maps.load();
 		analyzer.load();
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+		reports.add("[ "
+				+ sdf.format(new Date())
+				+ " ] kiu Nakamura > The Brave Intel Map server has been restarted. Sorry for the inconvenience...");
 
 		System.err.println("*** Started "
 				+ sce.getServletContext().getContextPath() + " ***");

@@ -68,7 +68,7 @@ public class Analyzer {
 	}
 
 	public void analyze(Report report) {
-		String line = report.textRaw + " ";
+		String line = report.getTextRaw() + " ";
 		line = line.replaceAll("<", "&lt;");
 		line = line.replaceAll(">", "&gt;");
 		line = line.replaceAll("'", "&apos;");
@@ -112,7 +112,7 @@ public class Analyzer {
 			}
 
 			List<String> matchedSystems = findMatchingSystems(needle);
-			report.systems.addAll(matchedSystems);
+			report.getSystems().addAll(matchedSystems);
 			if (!matchedSystems.isEmpty()) {
 				String sys = new Gson().toJson(matchedSystems);
 				sys = sys.replaceAll("\"", "\\\"");
@@ -125,7 +125,7 @@ public class Analyzer {
 			sb.append(all);
 		}
 
-		report.textInterpreted = sb.toString();
+		report.setTextInterpreted(sb.toString());
 	}
 
 	private List<String> findMatchingSystems(String needle) {
