@@ -24,9 +24,9 @@ public class ServletListener implements ServletContextListener {
 	private static final Analyzer analyzer = new Analyzer();
 	private static final MapStorage maps = new MapStorage();
 	private static final ExpiringCounter uploaderCount = new ExpiringCounter(
-			C.UPLOADER_COUNT_INTERVAL, C.AUTH_CLEAN_EXPIRE);
+			C.UPLOADER_COUNT_INTERVAL, C.UPLOADER_COUNT_EXPIRE);
 	private static final ExpiringCounter viewerCount = new ExpiringCounter(
-			C.UPLOADER_COUNT_INTERVAL, C.AUTH_CLEAN_EXPIRE);
+			C.VIEWER_COUNT_INTERVAL, C.VIEWER_COUNT_EXPIRE);
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
@@ -35,9 +35,11 @@ public class ServletListener implements ServletContextListener {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-		reports.add("[ "
-				+ sdf.format(new Date())
-				+ " ] kiu Nakamura > The Brave Intel Map server has been restarted. Sorry for the inconvenience...");
+		reports.add(
+				"admin",
+				"[ "
+						+ sdf.format(new Date())
+						+ " ] kiu Nakamura > The Brave Intel Map server has been restarted. Sorry for the inconvenience...");
 
 		System.err.println("*** Started "
 				+ sce.getServletContext().getContextPath() + " ***");

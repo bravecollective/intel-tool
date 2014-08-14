@@ -30,7 +30,7 @@ public class ReportStorage {
 		timerClean.cancel();
 	}
 
-	public boolean add(String text) {
+	public boolean add(String submitter, String text) {
 		Matcher matcher = patternIntel.matcher(text);
 		if (!matcher.matches()) {
 			return false;
@@ -42,12 +42,12 @@ public class ReportStorage {
 		synchronized (reports) {
 			for (Report re : new LinkedList<Report>(reports)) {
 				if (intel.equals(re.getTextRaw())) {
-					re.incSubmittedCount();
+					re.addSubmitter(submitter);
 					return false;
 				}
 			}
 
-			reports.add(new Report(reporter, intel));
+			reports.add(new Report(submitter, reporter, intel));
 			return true;
 		}
 	}
@@ -56,6 +56,11 @@ public class ReportStorage {
 		List<Report> matched = new LinkedList<Report>(reports);
 
 		for (Report r : new LinkedList<Report>(matched)) {
+			if (r.getSubmitterCount() < r.getSubmitterCountAtCreation() / 2) {
+				matched.remove(r);
+				continue;
+			}
+
 			if (r.getSubmittedAt() <= from) {
 				matched.remove(r);
 				continue;

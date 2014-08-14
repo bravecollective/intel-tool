@@ -10,14 +10,18 @@ public class Report {
 	private String reporter = "";
 	private long submittedAt = System.currentTimeMillis();
 	transient private String textRaw = "";
-	transient private int submittedCount = 1;
+	transient private Set<String> submitters = new TreeSet<String>();
+	transient private int submitterCountAtCreation = ServletListener
+			.getUploaderCounter().getCount();
 
 	private Set<String> systems = new TreeSet<String>();
 	private String textInterpreted = "";
 
-	public Report(String reporter, String textRaw) {
+	public Report(String submitter, String reporter, String textRaw) {
 		this.reporter = reporter;
 		this.textRaw = textRaw;
+		this.submitters.add(submitter);
+
 		ServletListener.getAnalyzer().analyze(this);
 	}
 
@@ -33,12 +37,16 @@ public class Report {
 		return submittedAt;
 	}
 
-	public int getSubmittedCount() {
-		return submittedCount;
+	public int getSubmitterCount() {
+		return submitters.size();
 	}
 
-	public void incSubmittedCount() {
-		submittedCount++;
+	public void addSubmitter(String submitter) {
+		submitters.add(submitter);
+	}
+
+	public int getSubmitterCountAtCreation() {
+		return submitterCountAtCreation;
 	}
 
 	public Set<String> getSystems() {

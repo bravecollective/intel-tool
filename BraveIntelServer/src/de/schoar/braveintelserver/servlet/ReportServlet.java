@@ -86,14 +86,15 @@ public class ReportServlet extends BaseServlet {
 		// ----------
 
 		if ("stop".equals(upload.status)) {
-			ServletListener.getUploaderCounter().remove(upload.token);
+			ServletListener.getUploaderCounter().remove(session.getCharName());
 		} else {
-			ServletListener.getUploaderCounter().add(upload.token);
+			ServletListener.getUploaderCounter().add(session.getCharName());
 		}
 
 		// ----------
 
-		ServletListener.getReportStorage().add(upload.text);
+		ServletListener.getReportStorage().add(session.getCharName(),
+				upload.text);
 
 		// ----------
 
