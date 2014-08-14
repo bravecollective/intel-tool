@@ -16,7 +16,7 @@ public class ReportStorage {
 	private final Timer timerClean = new Timer(true);
 
 	private static final Pattern patternIntel = Pattern
-			.compile("\\[\\ [0-9\\.]*\\ [0-9\\:]*\\ \\]\\ ([a-zA-z0-9\\'\\ \\-]*)\\ >\\ (.*)");
+			.compile("^\\[\\ [0-9\\.]*\\ [0-9\\:]*\\ \\]\\ ([a-zA-z0-9\\'\\ \\-]*)\\ >\\ (.*)");
 
 	public ReportStorage() {
 		timerClean.schedule(new TimerTask() {
