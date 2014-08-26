@@ -43,15 +43,27 @@ def hasStation(sysid):
 	#print "---- " + str(id) + "  " + str(rects)
     return false
 
+def toRegion(sysid):
+    for node in doc.getElementsByTagName('symbol'):
+	id = int(node.getAttribute('id')[3:])
+	if (sysid != id):
+	    continue
+
+	for n in node.getElementsByTagName('text'):
+	    if (n.getAttribute('class') == 'er'):
+		return n.firstChild.data
+    return ''
+
 systems = []
 for node in doc.getElementsByTagName('use'):
     id = int(node.getAttribute('id')[3:])
     x = node.getAttribute('x')
     y = node.getAttribute('y')
     station = hasStation(id)
+    region = toRegion(id)
     cur.execute("SELECT solarSystemName FROM toolkit_ruby.mapSolarSystems where solarSystemID=" + str(id))
     name = cur.fetchone()[0]
-    systems.append({'id': id, 'name': name, 'x': x, 'y': y, 'hasStation': station})
+    systems.append({'id': id, 'name': name, 'x': x, 'y': y, 'hasStation': station, 'region': region})
 
 conns = []
 for node in doc.getElementsByTagName('line'):

@@ -216,15 +216,22 @@ function drawSystems(ctx, shadow) {
 
 function drawSystemNames(ctx) {
     ctx.shadowBlur = 2;
-    ctx.fillStyle = nameToColor();
     ctx.font = "9pt Helvetica";
 
     for (i in drawData['map']['systems']) {
 	x = Math.floor(drawData['map']['systems'][i]['x']);
 	y = Math.floor(drawData['map']['systems'][i]['y']);
 	name = drawData['map']['systems'][i]['name'];
+	region = drawData['map']['systems'][i]['region'];
 
+	ctx.fillStyle = nameToColor();
 	ctx.fillText(name, x + drawSystemOffsetX + drawSystemSize/2 + 8, y + drawSystemOffsetY - 6);
+
+	if (region != undefined) {
+	    ctx.fillStyle = connectionToColor('jr');
+	    ctx.fillText(region, x + drawSystemOffsetX + drawSystemSize/2 + 8, y + drawSystemOffsetY + 16);
+	}
+
     }
 }
 
