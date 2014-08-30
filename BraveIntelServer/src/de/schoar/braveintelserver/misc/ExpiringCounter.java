@@ -2,13 +2,8 @@ package de.schoar.braveintelserver.misc;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
-public class ExpiringCounter {
-
-	private final Timer timerClean = new Timer(this.getClass()
-			.getCanonicalName(), true);
+public class ExpiringCounter extends TimerHelper {
 
 	private final Map<String, Long> count = new HashMap<String, Long>();
 
@@ -16,17 +11,7 @@ public class ExpiringCounter {
 
 	public ExpiringCounter(long interval, long expire) {
 		this.expire = expire;
-
-		timerClean.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				clean();
-			}
-		}, interval, interval);
-	}
-
-	public void stop() {
-		timerClean.cancel();
+		timerInit(interval);
 	}
 
 	public void add(String key) {
@@ -41,7 +26,8 @@ public class ExpiringCounter {
 		return count.size();
 	}
 
-	private void clean() {
+	@Override
+	protected void timerTick() {
 		long now = System.currentTimeMillis();
 		Map<String, Long> copy = new HashMap<String, Long>(count);
 

@@ -1,6 +1,8 @@
 package de.schoar.braveintelserver.servlet;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +20,11 @@ public class ReportServlet extends BaseServlet {
 
 	private static final long serialVersionUID = 3361775367429183015L;
 
+	private static final Pattern patternVersion = Pattern
+			.compile("([0-9]+)\\.([0-9]+)\\.([0-9]+)\\.([0-9]+)");
+
+	private static int versionRequired[] = { 1, 1, 0, 5 };
+
 	@Override
 	protected void get(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -33,7 +40,10 @@ public class ReportServlet extends BaseServlet {
 
 		ServletListener.getViewerCounter().add(session.getSessionId());
 
-		long rangeFrom = Helper.parseLongOrZero(req.getParameter("since"));
+		// ----------
+
+		long rangeFrom = Helper.parseLongOrZero(false,
+				req.getParameter("since"));
 		long rangeTo = System.currentTimeMillis();
 
 		// ----------
@@ -64,37 +74,46 @@ public class ReportServlet extends BaseServlet {
 		}
 
 		// ----------
+
 		Session session = authUploader(upload.token, resp);
 		if (session == null) {
+			log("Auth Error", null, upload.version, req.getHeader("X-Real-IP"),
+					upload.status);
 			return;
 		}
 
 		// ----------
 
-		// if (upload.version.length() == 0
-		// || "Development".equals(upload.version)) {
-		// send426(resp);
-		// return;
-		// }
-
-		// ----------
-
-		System.out.println("PUT: " + upload.text + " -- "
-				+ session.getCharName() + " v" + upload.version + " ["
-				+ req.getHeader("X-Real-IP") + "] -- " + upload.status);
-
-		// ----------
-
-		if ("stop".equals(upload.status)) {
-			ServletListener.getUploaderCounter().remove(session.getCharName());
-		} else {
-			ServletListener.getUploaderCounter().add(session.getCharName());
+		if (!checkVersion(upload.version)) {
+			log("Client Outdated", session.getCharName(), upload.version,
+					req.getHeader("X-Real-IP"), upload.status);
+			send426(resp);
+			return;
 		}
 
 		// ----------
 
-		ServletListener.getReportStorage().add(session.getCharName(),
-				upload.text);
+		log(upload.text, session.getCharName(), upload.version,
+				req.getHeader("X-Real-IP"), upload.status);
+
+		// ----------
+
+		if ("start".equals(upload.status)) {
+			ServletListener.getUploaderCounter().add(session.getCharName());
+		}
+
+		if ("stop".equals(upload.status)) {
+			ServletListener.getUploaderCounter().remove(session.getCharName());
+		}
+
+		// ----------
+
+		boolean reportIsValid = ServletListener.getReportStorage().add(
+				session.getCharName(), upload.text);
+
+		if (reportIsValid) {
+			ServletListener.getUploaderCounter().add(session.getCharName());
+		}
 
 		// ----------
 
@@ -102,4 +121,73 @@ public class ReportServlet extends BaseServlet {
 		resp.getOutputStream().write("OK\n".getBytes());
 	}
 
+	private boolean checkVersion(String version) {
+		if (version == null) {
+			return false;
+		}
+		if (version.trim().length() == 0) {
+			return false;
+		}
+
+		if ("Development".equals(version)) {
+			return false;
+		}
+
+		Matcher matcher = patternVersion.matcher(version);
+		if (!matcher.matches()) {
+			return false;
+		}
+
+		if (Helper.parseIntOrZero(true, matcher.group(1)) < versionRequired[0]) {
+			return false;
+		}
+		if (Helper.parseIntOrZero(true, matcher.group(1)) > versionRequired[0]) {
+			return true;
+		}
+
+		if (Helper.parseIntOrZero(true, matcher.group(2)) < versionRequired[1]) {
+			return false;
+		}
+		if (Helper.parseIntOrZero(true, matcher.group(2)) > versionRequired[1]) {
+			return true;
+		}
+
+		if (Helper.parseIntOrZero(true, matcher.group(3)) < versionRequired[2]) {
+			return false;
+		}
+		if (Helper.parseIntOrZero(true, matcher.group(3)) > versionRequired[2]) {
+			return true;
+		}
+
+		if (Helper.parseIntOrZero(true, matcher.group(4)) < versionRequired[3]) {
+			return false;
+		}
+		if (Helper.parseIntOrZero(true, matcher.group(4)) > versionRequired[3]) {
+			return true;
+		}
+
+		return true;
+	}
+
+	private void log(String msg, String username, String version, String ip,
+			String status) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("PUT: ");
+		if (msg != null && msg.length() != 0) {
+			sb.append(msg + " -- ");
+		}
+		if (status != null && status.length() != 0) {
+			sb.append(status + " -- ");
+		}
+		if (username != null && username.length() != 0) {
+			sb.append(username + " ");
+		}
+		if (version != null && version.length() != 0) {
+			sb.append("(v" + version + ") ");
+		}
+		if (ip != null && ip.length() != 0) {
+			sb.append("[" + ip + "]");
+		}
+		System.out.println(sb.toString());
+	}
 }

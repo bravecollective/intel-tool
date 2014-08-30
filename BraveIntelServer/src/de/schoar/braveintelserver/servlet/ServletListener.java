@@ -1,9 +1,5 @@
 package de.schoar.braveintelserver.servlet;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
-
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -20,9 +16,11 @@ public class ServletListener implements ServletContextListener {
 
 	private static final SessionLookup users = new SessionLookup("session");
 	private static final SessionLookup uploaders = new SessionLookup("uploader");
+
 	private static final ReportStorage reports = new ReportStorage();
 	private static final Analyzer analyzer = new Analyzer();
 	private static final MapStorage maps = new MapStorage();
+
 	private static final ExpiringCounter uploaderCount = new ExpiringCounter(
 			C.UPLOADER_COUNT_INTERVAL, C.UPLOADER_COUNT_EXPIRE);
 	private static final ExpiringCounter viewerCount = new ExpiringCounter(
@@ -33,13 +31,8 @@ public class ServletListener implements ServletContextListener {
 		maps.load();
 		analyzer.load();
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
-		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-		reports.add(
-				"admin",
-				"[ "
-						+ sdf.format(new Date())
-						+ " ] kiu Nakamura > The Brave Intel Map server has been restarted. Sorry for the inconvenience...");
+		reports.inject("kiu Nakamura",
+				"The Brave Intel Map server has been restarted. Sorry for the inconvenience...");
 
 		System.err.println("*** Started "
 				+ sce.getServletContext().getContextPath() + " ***");
@@ -51,12 +44,13 @@ public class ServletListener implements ServletContextListener {
 	public void contextDestroyed(ServletContextEvent sce) {
 		RUNNING = false;
 
-		users.stop();
-		uploaders.stop();
-		reports.stop();
+		users.timerStop();
+		uploaders.timerStop();
 
-		viewerCount.stop();
-		uploaderCount.stop();
+		reports.timerStop();
+
+		viewerCount.timerStop();
+		uploaderCount.timerStop();
 
 		System.err.println("*** Stopped "
 				+ sce.getServletContext().getContextPath() + " ***");

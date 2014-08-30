@@ -7,9 +7,29 @@ import javax.servlet.http.Cookie;
 
 public class Helper {
 
-	public static long parseLongOrZero(String str) {
+	public static long parseLongOrZero(boolean clean, String str) {
+		if (str == null) {
+			return 0;
+		}
+		if (clean) {
+			str = str.replaceAll("[^0-9]", "");
+		}
 		try {
 			return Long.parseLong(str);
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
+	public static int parseIntOrZero(boolean clean, String str) {
+		if (str == null) {
+			return 0;
+		}
+		if (clean) {
+			str = str.replaceAll("[^0-9]", "");
+		}
+		try {
+			return Integer.parseInt(str);
 		} catch (Exception e) {
 			return 0;
 		}

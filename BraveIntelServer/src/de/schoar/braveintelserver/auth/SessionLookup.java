@@ -7,16 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.TreeSet;
 
 import de.schoar.braveintelserver.C;
+import de.schoar.braveintelserver.misc.TimerHelper;
 
-public class SessionLookup {
-
-	private final Timer timerClean = new Timer(this.getClass()
-			.getCanonicalName(), true);
+public class SessionLookup extends TimerHelper {
 
 	private final Map<String, SessionCacheHit> cache = new HashMap<String, SessionCacheHit>();
 	private String table;
@@ -30,16 +26,7 @@ public class SessionLookup {
 			throw new RuntimeException("Failed to init MySQL driver!", e);
 		}
 
-		timerClean.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				clean();
-			}
-		}, C.AUTH_CLEAN_INTERVAL, C.AUTH_CLEAN_INTERVAL);
-	}
-
-	public void stop() {
-		timerClean.cancel();
+		timerInit(C.AUTH_CLEAN_INTERVAL);
 	}
 
 	public Session validate(String token) {
@@ -114,7 +101,8 @@ public class SessionLookup {
 		return session;
 	}
 
-	private void clean() {
+	@Override
+	protected void timerTick() {
 		long now = System.currentTimeMillis();
 		for (String token : new TreeSet<String>(cache.keySet())) {
 			SessionCacheHit sch = cache.get(token);
@@ -123,7 +111,6 @@ public class SessionLookup {
 			}
 			cache.remove(token);
 		}
-
 	}
 
 }

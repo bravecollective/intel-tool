@@ -2,32 +2,21 @@ package de.schoar.braveintelserver.data;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.schoar.braveintelserver.C;
+import de.schoar.braveintelserver.misc.TimerHelper;
 
-public class ReportStorage {
+public class ReportStorage extends TimerHelper {
 
 	private final List<Report> reports = new LinkedList<Report>();
-	private final Timer timerClean = new Timer(true);
 
 	private static final Pattern patternIntel = Pattern
 			.compile("^\\[\\ [0-9\\.]*\\ [0-9\\:]*\\ \\]\\ ([a-zA-z0-9\\'\\ \\-]*)\\ >\\ (.*)");
 
 	public ReportStorage() {
-		timerClean.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				clean();
-			}
-		}, C.REPORT_CLEAN_INTERVAL, C.REPORT_CLEAN_INTERVAL);
-	}
-
-	public void stop() {
-		timerClean.cancel();
+		timerInit(C.REPORT_CLEAN_INTERVAL);
 	}
 
 	public boolean add(String submitter, String text) {
@@ -43,12 +32,18 @@ public class ReportStorage {
 			for (Report re : new LinkedList<Report>(reports)) {
 				if (intel.equals(re.getTextRaw())) {
 					re.addSubmitter(submitter);
-					return false;
+					return true;
 				}
 			}
 
-			reports.add(new Report(submitter, reporter, intel));
+			reports.add(Report.createReport(submitter, reporter, intel));
 			return true;
+		}
+	}
+
+	public void inject(String reporter, String text) {
+		synchronized (reports) {
+			reports.add(Report.createAdmin(reporter, text));
 		}
 	}
 
@@ -56,10 +51,11 @@ public class ReportStorage {
 		List<Report> matched = new LinkedList<Report>(reports);
 
 		for (Report r : new LinkedList<Report>(matched)) {
-			if (r.getSubmitterCount() < r.getSubmitterCountAtCreation() / 2) {
-				matched.remove(r);
-				continue;
-			}
+			// if (r.getSubmitterCount() < r.getSubmitterCountAtCreation() / 2)
+			// {
+			// matched.remove(r);
+			// continue;
+			// }
 
 			if (r.getSubmittedAt() <= from) {
 				matched.remove(r);
@@ -73,7 +69,8 @@ public class ReportStorage {
 		return matched;
 	}
 
-	private void clean() {
+	@Override
+	protected void timerTick() {
 		long now = System.currentTimeMillis();
 		for (Report r : new LinkedList<Report>(reports)) {
 			if (now - r.getSubmittedAt() < C.REPORT_CLEAN_EXPIRE) {

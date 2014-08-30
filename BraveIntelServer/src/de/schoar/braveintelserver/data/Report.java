@@ -9,20 +9,30 @@ import de.schoar.braveintelserver.servlet.ServletListener;
 public class Report {
 
 	transient private Set<String> submitters = new TreeSet<String>();
-	private String reporter;
 	transient private String textRaw;
+	transient private int submitterCountAtCreation = 0;
 
+	private String reporter = "";
 	private long submittedAt = System.currentTimeMillis();
-	transient private int submitterCountAtCreation = ServletListener
-			.getUploaderCounter().getCount();
-
 	private Set<String> systems = new TreeSet<String>();
 	private String textInterpreted = "";
 
-	public Report(String submitter, String reporter, String textRaw) {
+	public static Report createReport(String submitter, String reporter,
+			String textRaw) {
+		return new Report(submitter, reporter, textRaw, ServletListener
+				.getUploaderCounter().getCount());
+	}
+
+	public static Report createAdmin(String reporter, String textRaw) {
+		return new Report("admin", reporter, textRaw, 1);
+	}
+
+	private Report(String submitter, String reporter, String textRaw,
+			int submitterCountAtCreation) {
+		this.submitters.add(submitter);
 		this.reporter = reporter;
 		this.textRaw = textRaw;
-		this.submitters.add(submitter);
+		this.submitterCountAtCreation = submitterCountAtCreation;
 
 		ServletListener.getAnalyzer().analyze(this);
 	}
