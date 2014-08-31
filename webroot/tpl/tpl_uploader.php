@@ -30,6 +30,7 @@
 	</div>
 	<div class="panel-body text-center">
 	    <h6><?php echo authUploaderToken(); ?></h6>
+	    <small>The auth token listed above will expire in case you don't login into this site for some time.</small>
 	</div>
     </div>
 
