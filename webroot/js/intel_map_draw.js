@@ -103,9 +103,9 @@ function drawMap() {
 	drawClear();
 	drawMapAll = false;
 	drawConnections(ctx, true);
-	//drawBridges(ctx, true);
-
 	drawConnections(ctx, false);
+
+	drawBridges(ctx, true);
 	drawBridges(ctx, false);
 
 	drawSystemNames(ctx);
@@ -153,24 +153,31 @@ function drawBridges(ctx, shadow) {
 	ctx.strokeStyle = '#000000';
     } else {
 	ctx.lineWidth = 3;
-	ctx.strokeStyle = '#101096';
 	ctx.strokeStyle = connectionToColor('jb');
     }
 
     ctx.beginPath();
     for (i in drawData['map']['bridges']) {
-	x1 = drawData['map']['bridges'][i]['x1'];
-	y1 = drawData['map']['bridges'][i]['y1'];
-	x2 = drawData['map']['bridges'][i]['x2'];
-	y2 = drawData['map']['bridges'][i]['y2'];
-	x3 = drawData['map']['bridges'][i]['x3'];
-	y3 = drawData['map']['bridges'][i]['y3'];
+	x1 = Math.floor(drawData['map']['bridges'][i]['x1']);
+	y1 = Math.floor(drawData['map']['bridges'][i]['y1']);
+	x3 = Math.floor(drawData['map']['bridges'][i]['x3']);
+	y3 = Math.floor(drawData['map']['bridges'][i]['y3']);
 
+	xmin = Math.min(x1, x3);
+	ymin = Math.min(y1, y3);
+	xmax = Math.max(x1, x3);
+	ymax = Math.max(y1, y3);
+	
 	ctx.moveTo(x1,y1);
-	ctx.quadraticCurveTo(x2,y2, x3,y3)
+	if ( (xmax-xmin) > (ymax-ymin)) {
+	    ctx.bezierCurveTo(x1, y3 + (y1 - y3) / 2, x3, y1 + (y3 - y1) / 2, x3, y3);
+	} else {
+	    ctx.bezierCurveTo(x3 + (x1 - x3) / 2, y1, x1 + (x3 - x1) / 2, y3, x3, y3);
+	}
     }
     ctx.stroke();
 }
+
 
 function drawSystems(ctx, shadow) {
     ctx.shadowBlur = 30;
