@@ -7,6 +7,9 @@
     <li class="dropdown">
 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Region <b class="caret"></b></a>
 	<ul class="dropdown-menu"  style="overflow: hidden; overflow-y: auto; max-height: 400px;">
+<li><a href="#" onclick="drawLoad('Catch');">Catch</a></li>
+<li><a href="#" onclick="drawLoad('Providence');">Providence</a></li>
+<li class="divider"></li>
 <li><a href="#" onclick="drawLoad('Aridia');">Aridia</a></li>
 <li><a href="#" onclick="drawLoad('Black_Rise');">Black Rise</a></li>
 <li><a href="#" onclick="drawLoad('The_Bleak_Lands');">The Bleak Lands</a></li>
