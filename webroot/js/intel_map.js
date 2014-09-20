@@ -140,7 +140,7 @@ function connectionToColor(gate) {
 	return "#070766";
     }
     if (gate == "jbh") {
-	return "#830000";
+	return "#47270a";
     }
 
 }
