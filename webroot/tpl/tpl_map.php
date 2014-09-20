@@ -40,15 +40,15 @@
 
 <!-- Popups -->
       <div class="hide" id="popsys">
-        <table class="table table-condensed" style='border: 1px solid;'>
+        <table class="table table-condensed" style='border: 2px solid black;'>
           <thead>
             <tr>
-              <th colspan='2' id="popsys-name">&nbsp;</th>
+              <th style='border: 2px solid black;' colspan='2' id="popsys-name">&nbsp;</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td id="popsys-content">&nbsp;</td>
+              <td style='border: 2px solid black;' id="popsys-content">&nbsp;</td>
             </tr>
           </tbody>
         </table>
