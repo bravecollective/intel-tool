@@ -216,27 +216,45 @@ function showSystemDetails(obj, sid) {
 	return;
     }
 
-    bridge = findBridge(sid);
-    if (bridge === false) {
-	return;
-    }
-
     $('#popsys-name').html('<span>' + sys['name'] + '</span>');
 
     cnt = "";
     cnt+= '<div class="text-muted">';
 
-    cnt += '<b>Jumpbridge</b> ';
-    if (bridge['friendly'] == true) {
-	cnt += ' (<span style="color: ' + connectionToColor('jbf') + ';">friendly</span>)';
-    } else {
-	cnt += ' (<span style="color: ' + connectionToColor('jbh') + ';">hostile</span>)';
+    bridge = findBridge(sid);
+    if (bridge !== false) {
+	cnt += '<b>Jumpbridge</b> ';
+	if (bridge['friendly'] == true) {
+	    cnt += ' (<span style="color: ' + connectionToColor('jbf') + ';">friendly</span>)';
+	} else {
+	    cnt += ' (<span style="color: ' + connectionToColor('jbh') + ';">hostile</span>)';
+	}
+	cnt+= '<br>';
+	cnt += bridge['nameA'] + " " + bridge['planetA'] + "-" + bridge['moonA'];
+	cnt += ' &lt;-&gt; ';
+	cnt += bridge['nameB'] + " " + bridge['planetB'] + "-" + bridge['moonB'] + "<br>";
     }
-    cnt+= '<br>';
 
-    cnt += bridge['nameA'] + " " + bridge['planetA'] + "-" + bridge['moonA'];
-    cnt += ' &lt;-&gt; ';
-    cnt += bridge['nameB'] + " " + bridge['planetB'] + "-" + bridge['moonB'] + "<br>";
+    jumps = 0;
+    if (eveData['jumps'][sid] !== undefined) {
+	jumps = eveData['jumps'][sid];
+    }
+    cnt += '<b>Stats</b> (1h)<br>';
+    cnt += "Jumps: " +  jumps + "<br>";
+
+    kShips = 0;
+    kPods = 0;
+    kRats = 0;
+    if (eveData['kills'][sid] !== undefined) {
+	kShips = eveData['kills'][sid]['ships'];
+	kPods = eveData['kills'][sid]['pods'];
+	kRats = eveData['kills'][sid]['rats'];
+    }
+    cnt += '<b>Kills</b> (1h)<br>';
+    cnt += "Ships: " + kShips + "<br>";
+    cnt += "Pods: " + kPods + "<br>";
+    cnt += "Rats: " + kRats + "<br>";
+
     cnt += '</span>';
 
     $('#popsys-content').html(cnt);

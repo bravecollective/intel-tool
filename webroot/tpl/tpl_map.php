@@ -39,7 +39,7 @@
 <!-- Logs -->
 
 <!-- Popups -->
-      <div class="hide" id="popsys">
+      <div class="hide" id="popsys" style="min-width:100px">
         <table class="table table-condensed" style='border: 2px solid black;'>
           <thead>
             <tr>
