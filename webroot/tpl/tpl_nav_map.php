@@ -89,7 +89,8 @@
 	    <li><a href="#"><span id="legend-j">&#9644;</span> &nbsp;&nbsp;&nbsp; Gate within constellation</a></li>
 	    <li><a href="#"><span id="legend-jc">&#9644;</span> &nbsp;&nbsp;&nbsp; Gate connecting constellations</a></li>
 	    <li><a href="#"><span id="legend-jr">&#9644;</span> &nbsp;&nbsp;&nbsp; Gate connecting regions</a></li>
-	    <li><a href="#"><span id="legend-jb">&#9644;</span> &nbsp;&nbsp;&nbsp; Jump bridge</a></li>
+	    <li><a href="#"><span id="legend-jbf">&#9644;</span> &nbsp;&nbsp;&nbsp; Friendly jump bridge</a></li>
+	    <li><a href="#"><span id="legend-jbh">&#9644;</span> &nbsp;&nbsp;&nbsp; Hostile jump bridge</a></li>
 
 	    <li class="dropdown-header">Age</li>
 	    <li><a href="#"><span id="legend-less2">&#9632; &#9679;</span> &nbsp;&nbsp; Less than 2m ago</a></li>

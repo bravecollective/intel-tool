@@ -148,34 +148,58 @@ function drawConnections(ctx, shadow) {
 function drawBridges(ctx, shadow) {
     ctx.shadowBlur = 6;
 
-    if (shadow === true) {
-	ctx.lineWidth = 5;
-	ctx.strokeStyle = '#000000';
-    } else {
-	ctx.lineWidth = 3;
-	ctx.strokeStyle = connectionToColor('jb');
-    }
+    for (i in jbData['bridges']) {
 
-    ctx.beginPath();
-    for (i in drawData['map']['bridges']) {
-	x1 = Math.floor(drawData['map']['bridges'][i]['x1']);
-	y1 = Math.floor(drawData['map']['bridges'][i]['y1']);
-	x3 = Math.floor(drawData['map']['bridges'][i]['x3']);
-	y3 = Math.floor(drawData['map']['bridges'][i]['y3']);
+	sidA = jbData['bridges'][i]['idA'];
+	sidB = jbData['bridges'][i]['idB'];
+	friendly = jbData['bridges'][i]['friendly'];
+
+	sdataA = findSystem(sidA);
+	sdataB = findSystem(sidB);
+	if (sdataA === false && sdataB === false) {
+	    continue;
+	}
+
+	x1 = Math.floor(sdataA['x']) + drawSystemOffsetX;
+	y1 = Math.floor(sdataA['y']) + drawSystemOffsetY;
+	x3 = Math.floor(sdataB['x']) + drawSystemOffsetX;
+	y3 = Math.floor(sdataB['y']) + drawSystemOffsetY;
+
+	if (sdataA === false || sdataB === false) {
+	    if (sdataA === false) {
+		x1 = x3 - 40;
+		y1 = y3 - 20;
+	    } else {
+		x3 = x1 - 40;
+		y3 = y1 - 20;
+	    }
+	}
 
 	xmin = Math.min(x1, x3);
 	ymin = Math.min(y1, y3);
 	xmax = Math.max(x1, x3);
 	ymax = Math.max(y1, y3);
 	
+	ctx.beginPath();
+	if (shadow === true) {
+	    ctx.lineWidth = 5;
+	    ctx.strokeStyle = '#000000';
+	} else {
+	    ctx.lineWidth = 3;
+	    if (friendly) {
+		ctx.strokeStyle = connectionToColor('jbf');
+	    } else {
+		ctx.strokeStyle = connectionToColor('jbh');
+	    }
+	}
 	ctx.moveTo(x1,y1);
 	if ( (xmax-xmin) > (ymax-ymin)) {
 	    ctx.bezierCurveTo(x1, y3 + (y1 - y3) / 2, x3, y1 + (y3 - y1) / 2, x3, y3);
 	} else {
 	    ctx.bezierCurveTo(x3 + (x1 - x3) / 2, y1, x1 + (x3 - x1) / 2, y3, x3, y3);
 	}
+	ctx.stroke();
     }
-    ctx.stroke();
 }
 
 
@@ -279,7 +303,7 @@ function drawDivs() {
     });
 
     for (i in drawData['map']['systems']) {
-	id = Math.floor(drawData['map']['systems'][i]['id']);
+	id = drawData['map']['systems'][i]['id'];
 	x = Math.floor(drawData['map']['systems'][i]['x']);
 	y = Math.floor(drawData['map']['systems'][i]['y']);
 	name = drawData['map']['systems'][i]['name'];
@@ -296,7 +320,7 @@ function drawDivs() {
 	cnt = "";
 	cnt += "<div id='blink-" + name + "'";
 	cnt += " style='position: absolute; left: " +  dx + "px; top: " +  dy + "px; width: " + dw + "px; height: " + dh + "px; cursor: pointer; z-index:1; background-color: #FF0000; opacity: 0; " + style + "'";
-	cnt += " onclick='mapSystemClicked(\"" + name + "\");'></div>";
+	cnt += " onclick='mapSystemClicked(\"" + name + "\");' onmouseover='showSystemDetails($(this), \"" + id + "\");' onmouseleave='hideSystemDetails($(this), \"" + id + "\");'></div>";
 	$("#map").append(cnt);
     }
 

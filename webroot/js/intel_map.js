@@ -134,7 +134,13 @@ function connectionToColor(gate) {
 	return "#7c047b";
     }
     if (gate == "jb") {
+	return "#000000";
+    }
+    if (gate == "jbf") {
 	return "#070766";
+    }
+    if (gate == "jbh") {
+	return "#830000";
     }
 
 }
@@ -157,7 +163,8 @@ function fixLegend() {
     $("#legend-j").css('color', connectionToColor('j'));
     $("#legend-jc").css('color', connectionToColor('jc'));
     $("#legend-jr").css('color', connectionToColor('jr'));
-    $("#legend-jb").css('color', connectionToColor('jb'));
+    $("#legend-jbf").css('color', connectionToColor('jbf'));
+    $("#legend-jbh").css('color', connectionToColor('jbh'));
 
     $("#legend-system").css('color', systemToColor());
     $("#legend-system-station").css('color', systemToColor());
@@ -177,6 +184,98 @@ function blink(id) {
 	.animate({opacity: 0.2}, 600)
 	.animate({opacity: 1}, 400)
 	.animate({opacity: 0}, 600);
+}
+
+// ---------------------------------------------------------------
+
+function findSystem(sid) {
+    for (i in drawData['map']['systems']) {
+	if (drawData['map']['systems'][i]['id'] == sid) {
+	    return drawData['map']['systems'][i];
+	}
+    }
+    return false;
+}
+
+function findBridge(jid) {
+    for (i in jbData['bridges']) {
+	if (jbData['bridges'][i]['idA'] == jid || jbData['bridges'][i]['idB'] == jid) {
+	    return jbData['bridges'][i];
+	}
+    }
+    return false;
+}
+
+// ---------------------------------------------------------------
+
+function showSystemDetails(obj, sid) {
+    hideSystemDetails(sid);
+
+    sys = findSystem(sid);
+    if (sys === false) {
+	return;
+    }
+
+    bridge = findBridge(sid);
+    if (bridge === false) {
+	return;
+    }
+
+    $('#popsys-name').html('<span>' + sys['name'] + '</span>');
+
+    cnt = "";
+    cnt+= '<div class="text-muted">';
+
+    cnt += '<b>Jumpbridge</b> ';
+    if (bridge['friendly'] == true) {
+	cnt += ' (<span style="color: ' + connectionToColor('jbf') + ';">friendly</span>)';
+    } else {
+	cnt += ' (<span style="color: ' + connectionToColor('jbh') + ';">hostile</span>)';
+    }
+    cnt+= '<br>';
+
+    cnt += bridge['nameA'] + " " + bridge['planetA'] + "-" + bridge['moonA'];
+    cnt += ' &lt;-&gt; ';
+    cnt += bridge['nameB'] + " " + bridge['planetB'] + "-" + bridge['moonB'] + "<br>";
+    cnt += '</span>';
+
+    $('#popsys-content').html(cnt);
+    popShow(obj, "#popsys");
+}
+
+function hideSystemDetails(obj, sid) {
+    popHide(obj, "#popsys");
+}
+
+// ---------------------------------------------------------------
+
+function popHide(obj, overlay) {
+  $("#popsys").addClass('hide');
+}
+
+function popShow(obj, overlay) {
+  $(overlay).css({left: 0, top: 0, position:'absolute'});
+  $(overlay).removeClass('hide');
+
+  var ox = 25;
+  var oy = 0;
+
+  var x = $(obj).offset().left;
+  var y = $(obj).offset().top;
+
+  if (x + ox + $(overlay).width() > $(document).width()) {
+    x = (x - ox - $(overlay).width());
+  } else {
+    x = (x + ox);
+  }
+
+  if (y + oy + $(overlay).height() > $(document).height()) {
+    y = (y - oy - $(overlay).height());
+  } else {
+    y = (y + oy);
+  }
+
+ $(overlay).css({left: x, top: y, position:'absolute'});
 }
 
 // ---------------------------------------------------------------

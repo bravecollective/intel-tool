@@ -37,3 +37,20 @@
 	</table>
     </div>
 <!-- Logs -->
+
+<!-- Popups -->
+      <div class="hide" id="popsys">
+        <table class="table table-condensed" style='border: 1px solid;'>
+          <thead>
+            <tr>
+              <th colspan='2' id="popsys-name">&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="popsys-content">&nbsp;</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+<!-- Popups -->

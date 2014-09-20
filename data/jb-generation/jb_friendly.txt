@@ -1,0 +1,2 @@
+# Friendly jump bridges in dotlan format
+# Jita 4-4 <-> Dodixie 9-20
