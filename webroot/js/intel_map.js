@@ -230,6 +230,7 @@ function showSystemDetails(obj, sid) {
 	    cnt += ' (<span style="color: ' + connectionToColor('jbh') + ';">hostile</span>)';
 	}
 	cnt+= '<br>';
+	cnt += "&nbsp;&nbsp;";
 	cnt += bridge['nameA'] + " " + bridge['planetA'] + "-" + bridge['moonA'];
 	cnt += ' &lt;-&gt; ';
 	cnt += bridge['nameB'] + " " + bridge['planetB'] + "-" + bridge['moonB'] + "<br>";
@@ -240,7 +241,7 @@ function showSystemDetails(obj, sid) {
 	jumps = eveData['jumps'][sid];
     }
     cnt += '<b>Stats</b> (1h)<br>';
-    cnt += "Jumps: " +  jumps + "<br>";
+    cnt += "&nbsp;&nbsp;" + jumps + " jumps<br>";
 
     kShips = 0;
     kPods = 0;
@@ -251,9 +252,9 @@ function showSystemDetails(obj, sid) {
 	kRats = eveData['kills'][sid]['rats'];
     }
     cnt += '<b>Kills</b> (1h)<br>';
-    cnt += "Ships: " + kShips + "<br>";
-    cnt += "Pods: " + kPods + "<br>";
-    cnt += "Rats: " + kRats + "<br>";
+    cnt += "&nbsp;&nbsp;" + kShips + " ships<br>";
+    cnt += "&nbsp;&nbsp;" + kPods + " pods<br>";
+    cnt += "&nbsp;&nbsp;" + kRats + " rats<br>";
 
     cnt += '</span>';
 
