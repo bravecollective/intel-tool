@@ -7,6 +7,8 @@ import de.schoar.braveintelserver.C;
 import de.schoar.braveintelserver.auth.SessionLookup;
 import de.schoar.braveintelserver.data.MapStorage;
 import de.schoar.braveintelserver.data.ReportStorage;
+import de.schoar.braveintelserver.eveapi.EveJumpDownloader;
+import de.schoar.braveintelserver.eveapi.EveKillDownloader;
 import de.schoar.braveintelserver.misc.Analyzer;
 import de.schoar.braveintelserver.misc.ExpiringCounter;
 
@@ -25,6 +27,9 @@ public class ServletListener implements ServletContextListener {
 			C.UPLOADER_COUNT_INTERVAL, C.UPLOADER_COUNT_EXPIRE);
 	private static final ExpiringCounter viewerCount = new ExpiringCounter(
 			C.VIEWER_COUNT_INTERVAL, C.VIEWER_COUNT_EXPIRE);
+
+	private static EveJumpDownloader ejd = new EveJumpDownloader();
+	private static EveKillDownloader ekd = new EveKillDownloader();
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
@@ -86,5 +91,13 @@ public class ServletListener implements ServletContextListener {
 
 	public static ExpiringCounter getViewerCounter() {
 		return viewerCount;
+	}
+
+	public static EveJumpDownloader getEveJumps() {
+		return ejd;
+	}
+
+	public static EveKillDownloader getEveKills() {
+		return ekd;
 	}
 }

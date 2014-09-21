@@ -9,12 +9,16 @@ abstract public class TimerHelper {
 			true);
 
 	protected void timerInit(long interval) {
+		timerInit(interval, interval);
+	}
+
+	protected void timerInit(long start, long interval) {
 		timer.schedule(new TimerTask() {
 			@Override
 			public void run() {
 				timerTick();
 			}
-		}, interval, interval);
+		}, start, interval);
 	}
 
 	abstract protected void timerTick();

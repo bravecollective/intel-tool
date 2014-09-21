@@ -53,4 +53,15 @@
 		<servlet-name>ReloadServlet</servlet-name>
 		<url-pattern>/reload</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<description></description>
+		<display-name>EveDataServlet</display-name>
+		<servlet-name>EveDataServlet</servlet-name>
+		<servlet-class>de.schoar.braveintelserver.servlet.EveDataServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EveDataServlet</servlet-name>
+		<url-pattern>/evedata</url-pattern>
+	</servlet-mapping>
 </web-app>

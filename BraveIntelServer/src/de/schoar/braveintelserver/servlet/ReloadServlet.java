@@ -30,6 +30,8 @@ public class ReloadServlet extends BaseServlet {
 
 		resp.setStatus(200);
 		resp.getOutputStream().write("OK".getBytes());
+		ServletListener.getReportStorage().inject("kiu Nakamura",
+				"The Brave Intel Map server has been updated...");
 	}
 
 	@Override

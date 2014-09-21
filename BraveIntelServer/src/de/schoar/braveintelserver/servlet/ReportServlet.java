@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.stream.MalformedJsonException;
 
+import de.schoar.braveintelserver.C;
 import de.schoar.braveintelserver.auth.Session;
 import de.schoar.braveintelserver.data.IntelResponse;
 import de.schoar.braveintelserver.data.IntelUpload;
@@ -54,6 +55,8 @@ public class ReportServlet extends BaseServlet {
 				.get(rangeFrom, rangeTo);
 		res.submitterCount = ServletListener.getUploaderCounter().getCount();
 		res.viewerCount = ServletListener.getViewerCounter().getCount();
+		res.pollInterval = C.POLL_INTERVAL_BASE
+				+ ((ServletListener.getViewerCounter().getCount() / C.POLL_INTERVAL_USER) * 1000);
 
 		resp.setStatus(200);
 		resp.getOutputStream().write(new Gson().toJson(res).getBytes());
@@ -87,8 +90,8 @@ public class ReportServlet extends BaseServlet {
 		if (!checkVersion(upload.version)) {
 			log("Client Outdated", session.getCharName(), upload.version,
 					req.getHeader("X-Real-IP"), upload.status);
-			send426(resp);
-			return;
+			// send426(resp);
+			// return;
 		}
 
 		// ----------
@@ -97,10 +100,6 @@ public class ReportServlet extends BaseServlet {
 				req.getHeader("X-Real-IP"), upload.status);
 
 		// ----------
-
-		if ("start".equals(upload.status)) {
-			ServletListener.getUploaderCounter().add(session.getCharName());
-		}
 
 		if ("stop".equals(upload.status)) {
 			ServletListener.getUploaderCounter().remove(session.getCharName());
@@ -130,7 +129,7 @@ public class ReportServlet extends BaseServlet {
 		}
 
 		if ("Development".equals(version)) {
-			return false;
+			return true;
 		}
 
 		Matcher matcher = patternVersion.matcher(version);
@@ -138,31 +137,31 @@ public class ReportServlet extends BaseServlet {
 			return false;
 		}
 
-		if (Helper.parseIntOrZero(true, matcher.group(1)) < versionRequired[0]) {
+		if (Helper.parseIntOrZero(false, matcher.group(1)) < versionRequired[0]) {
 			return false;
 		}
-		if (Helper.parseIntOrZero(true, matcher.group(1)) > versionRequired[0]) {
+		if (Helper.parseIntOrZero(false, matcher.group(1)) > versionRequired[0]) {
 			return true;
 		}
 
-		if (Helper.parseIntOrZero(true, matcher.group(2)) < versionRequired[1]) {
+		if (Helper.parseIntOrZero(false, matcher.group(2)) < versionRequired[1]) {
 			return false;
 		}
-		if (Helper.parseIntOrZero(true, matcher.group(2)) > versionRequired[1]) {
+		if (Helper.parseIntOrZero(false, matcher.group(2)) > versionRequired[1]) {
 			return true;
 		}
 
-		if (Helper.parseIntOrZero(true, matcher.group(3)) < versionRequired[2]) {
+		if (Helper.parseIntOrZero(false, matcher.group(3)) < versionRequired[2]) {
 			return false;
 		}
-		if (Helper.parseIntOrZero(true, matcher.group(3)) > versionRequired[2]) {
+		if (Helper.parseIntOrZero(false, matcher.group(3)) > versionRequired[2]) {
 			return true;
 		}
 
-		if (Helper.parseIntOrZero(true, matcher.group(4)) < versionRequired[3]) {
+		if (Helper.parseIntOrZero(false, matcher.group(4)) < versionRequired[3]) {
 			return false;
 		}
-		if (Helper.parseIntOrZero(true, matcher.group(4)) > versionRequired[3]) {
+		if (Helper.parseIntOrZero(false, matcher.group(4)) > versionRequired[3]) {
 			return true;
 		}
 

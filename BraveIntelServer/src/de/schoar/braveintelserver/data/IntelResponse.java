@@ -10,5 +10,5 @@ public class IntelResponse {
 	public List<Report> reports = new LinkedList<Report>();
 	public int submitterCount = 0;
 	public int viewerCount = 0;
-	public long pollInterval = C.POLL_INTERVAL;
+	public long pollInterval = C.POLL_INTERVAL_BASE;
 }

@@ -73,6 +73,10 @@ public class Report {
 		this.textInterpreted = textInterpreted;
 	}
 
+	public boolean isValid() {
+		return getSubmitterCount() >= getSubmitterCountAtCreation() / 2;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (o == null) {

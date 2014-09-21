@@ -59,7 +59,6 @@ public abstract class BaseServlet extends javax.servlet.http.HttpServlet
 		put(req, resp);
 	}
 
-	@SuppressWarnings("unused")
 	protected Session authUser(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		String token = Helper.getCookie(C.AUTH_COOKIE_NAME, req.getCookies());
@@ -77,7 +76,6 @@ public abstract class BaseServlet extends javax.servlet.http.HttpServlet
 		return session;
 	}
 
-	@SuppressWarnings("unused")
 	protected Session authUploader(String token, HttpServletResponse resp)
 			throws IOException {
 		Session session = ServletListener.getUploaderLookup().validate(token);
