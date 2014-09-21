@@ -9,6 +9,8 @@
 <!-- Audio -->
 
 <!-- Map -->
+    <div id="map-heat" style="position:absolute; top:60px; bottom:5px; left:10px; width:69%; z-index:-3;">
+    </div>
     <div id="map" style="position:absolute; top:60px; bottom:5px; left:10px; width:69%; z-index:-1;">
 	<canvas id="canvas" width="100px" height="100px"></canvas>
     </div>

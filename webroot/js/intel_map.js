@@ -16,7 +16,6 @@ function queueUIRefresh() {
     timerUI = setTimeout(function() {
 	    applyUI();
     }, 10000);
-                                                                                                        
 }
 
 function applyFilter() {

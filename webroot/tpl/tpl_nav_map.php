@@ -75,7 +75,21 @@
 <li><a href="#" onclick="drawLoad('Verge_Vendor');">Verge Vendor</a></li>
 <li><a href="#" onclick="drawLoad('Wicked_Creek');">Wicked Creek</a></li>
 
+	</ul>
+    </li>
 
+
+    <li class="dropdown">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Heatmap <b class="caret"></b></a>
+	<ul class="dropdown-menu">
+	    <li class="dropdown-header">Off</li>
+	    <li><a href="#" onclick="eveMode = 0; eveDraw();">None</a></li>
+	    <li class="dropdown-header">Stats (1h)</li>
+	    <li><a href="#" onclick="eveMode = 1; eveDraw();">Jumps</a></li>
+	    <li class="dropdown-header">Kills (1h)</li>
+	    <li><a href="#" onclick="eveMode = 2; eveDraw();">Ships</a></li>
+	    <li><a href="#" onclick="eveMode = 3; eveDraw();">Pods</a></li>
+	    <li><a href="#" onclick="eveMode = 4; eveDraw();">Rats</a></li>
 	</ul>
     </li>
 
@@ -104,5 +118,7 @@
 
 	</ul>
     </li>
+
+
     <li class="navbar-text" style="border-right:1px solid;">&nbsp;</li>
 <!-- Navigation MAP -->

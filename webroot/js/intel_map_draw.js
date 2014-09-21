@@ -32,6 +32,7 @@ $(document).ready(function() {
 function drawLoad(map) {
     drawReady = false;
     drawClear();
+    eveClear();
 
     $.ajax({
 	async: true,
@@ -92,6 +93,7 @@ function drawMap() {
 	return;
     }
 
+    eveDraw();
 
     var ctx = document.getElementById('canvas').getContext('2d');
 
