@@ -74,24 +74,9 @@ for node in doc.getElementsByTagName('line'):
     y2 = node.getAttribute('y2')
     conns.append({'a': sysA, 'b': sysB, 'type': type, 'x1': x1, 'y1': y1, 'x2': x2, 'y2': y2})
 
-bridges = []
-for node in doc.getElementsByTagName('path'):
-    id = str(node.getAttribute('id'))
-    sysA = int(id[2:10])
-    sysB = int(id[11:19])
-    path = str(node.getAttribute('d'))
-    pathparts = re.split('[\ |,]', path)
-    x1 = pathparts[1]
-    y1 = pathparts[2]
-    x2 = pathparts[4]
-    y2 = pathparts[5]
-    x3 = pathparts[6]
-    y3 = pathparts[7]
-    bridges.append({'a': sysA, 'b': sysB, 'x1': x1, 'y1': y1, 'x2': x2, 'y2': y2, 'x3': x3, 'y3': y3})
-
 doc.unlink()
 
-result = { 'map': { 'systems': systems, 'connections': conns, 'bridges': bridges } }
+result = { 'map': { 'systems': systems, 'connections': conns} }
 
 f = open(fout,'w')
 json.dump(result, f)
