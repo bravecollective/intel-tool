@@ -224,7 +224,7 @@ function showSystemDetails(obj, sid) {
     if (bridge !== false) {
 	cnt += '<b>Jumpbridge</b> ';
 	if (bridge['friendly'] == true) {
-	    cnt += ' (<span style="color: ' + connectionToColor('jbf') + ';">friendly</span>)';
+	    cnt += ' (friendly)';
 	} else {
 	    cnt += ' (<span style="color: ' + connectionToColor('jbh') + ';">hostile</span>)';
 	}
