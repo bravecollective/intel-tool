@@ -1,10 +1,11 @@
 // ---------------------------------------------------------------
 
-var eveUrl = "/BraveIntelServer/eve";
+var eveUrl = "/BraveIntelServer/evedata";
 var eveData = {};
 var eveInterval = 90000;
 var eveHeat;
 var eveMode = 0;
+var eveId = 0;
 
 // ---------------------------------------------------------------
 
@@ -20,21 +21,28 @@ $(document).ready(function() {
     eveHeat = h337.create(config)
     $('#map-heat').css('position', 'absolute');
 
-    eveLoad();
-
-    eveId = setInterval(function() {
-	console.log("Timer: eve");
-	eveLoad();
-    }, eveInterval);
-
+    evePoll();
 });
 
 // ---------------------------------------------------------------
 
+function evePoll() {
+    if (eveId != 0) {
+	clearInterval(eveId);
+	eveId = 0;
+    }
+
+    eveLoad();
+    eveId = setInterval(function() {
+	console.log("Timer: eve");
+	eveLoad();
+    }, eveInterval);
+}
+
 function eveLoad() {
     $.ajax({
 	async: true,
-	url: eveUrl,
+	url: eveUrl + "?region=" + drawRegion,
 	mimeType: "application/json",
 	dataType: 'json',
 	error: eveLoadError,
@@ -88,7 +96,9 @@ function eveDraw() {
 }
 
 function eveClear() {
+    eveData = {};
     eveHeat.setData({ max: 0, min: 0, data: [] });
+    evePoll();
 }
 
 function eveLoadError(error) {

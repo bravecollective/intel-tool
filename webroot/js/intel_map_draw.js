@@ -1,7 +1,6 @@
 // ---------------------------------------------------------------
 
 var drawUrl = "/BraveIntelServer/map";
-
 var drawData = {};
 var drawMapAll = true;
 var drawCacheData;
@@ -14,6 +13,8 @@ var drawSystemOffsetY = 14;
 
 var drawScale = 1.0;
 
+var drawRegion = "Catch";
+
 // ---------------------------------------------------------------
 
 $(document).ready(function() {
@@ -23,7 +24,7 @@ $(document).ready(function() {
 	resizeTimer = setTimeout(drawResize, 300);
     });
     setTimeout(function(){
-	drawLoad('Catch');
+	drawLoad(drawRegion);
     }, 1000);
 });
 
@@ -31,6 +32,7 @@ $(document).ready(function() {
 
 function drawLoad(map) {
     drawReady = false;
+    drawRegion = map;
     drawClear();
     eveClear();
 
@@ -93,7 +95,6 @@ function drawMap() {
 	return;
     }
 
-    eveDraw();
 
     var ctx = document.getElementById('canvas').getContext('2d');
 
@@ -120,6 +121,8 @@ function drawMap() {
 
     drawSystems(ctx, false);
     drawSystemSelects(ctx);
+
+    eveDraw();
 }
 
 function drawConnections(ctx, shadow) {
