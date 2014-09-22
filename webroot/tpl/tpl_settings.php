@@ -43,6 +43,32 @@
 	</li>
     </ul>
 
+    <h4>Alarms</h4>
+    <ul class="list-group">
+	<li class="list-group-item">
+	    I want audio alarms for new entries matching my current log filter to be 
+	    <div id="s-alarm-audio" class="btn-group">
+		<button type="button" value="1" class="btn btn-default btn-xs" onclick="settingsSet('s-alarm-audio', value);">enabled</button>
+		<button type="button" value="0" class="btn btn-default btn-xs" onclick="settingsSet('s-alarm-audio', value);">disabled</button>
+	    </div>
+	</li>
+	<li class="list-group-item">
+	    I want this sound to be played: 
+	    <div id="s-alarm-audio-file" class="btn-group">
+		<button type="button" value="0" class="btn btn-default btn-xs" onclick="settingsSet('s-alarm-audio-file', value);">Woop</button>
+		<button type="button" value="1" class="btn btn-default btn-xs" onclick="settingsSet('s-alarm-audio-file', value);">School</button>
+		<button type="button" value="2" class="btn btn-default btn-xs" onclick="settingsSet('s-alarm-audio-file', value);">Grocery</button>
+		<button type="button" value="3" class="btn btn-default btn-xs" onclick="settingsSet('s-alarm-audio-file', value);">Blip</button>
+	    </div>
+	</li>
+	<li class="list-group-item">
+	    I want the audio to be this loud (click, don't drag):  
+	    <div class="progress progress-striped" style=" border: 1px solid black;"  id="s-alarm-audio-volume-div">
+		<div class="progress-bar progress-bar-success" style="width: 0px;" id="s-alarm-audio-volume-bar"></div>
+	    </div>
+	</li>
+    </ul>
+
     <h4>Background</h4>
     <ul class="list-group">
 	<li id="s-background-image" class="list-group-item">

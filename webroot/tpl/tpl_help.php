@@ -25,6 +25,8 @@
 	    The uploader counter tells you how many people are running the <a href="?nav=uploader">Brave Intel Reporter</a> right now. If this number drops down to <label class="label label-danger">0</label> no intel will get reported whatsoever.
 	    <h6>Region</h6>
 	    The region dropdown lets you select which region you would like to see drawn as a map. Changing the region has no other consequences except a different map is drawn.
+	    <h6>Heatmap</h6>
+	    The heatmap dropdown lets you select the data you want to draw as a background heatmap. Be aware that the data delivered by CCP can be delayed up to 30 minutes.
 	    <h6>Legend</h6>
 	    Well, its a legend for the map. Take a look and make yourself familiar with the color coding being used.
 	    <h6>Map</h6>

@@ -2,6 +2,7 @@
 
 var logsFilterSystems = [];
 var logsFilterUnknowns = true;
+var logsDisplayedLatest = 0;
 
 // ---------------------------------------------------------------
 
@@ -14,31 +15,42 @@ function logsClear() {
     $('#logs .keep').removeClass("hide");
 }
 
-function logsRefresh() {
+function logsRefresh(sound) {
     logsClear();
 
+    var logsAddedLatest = 0;
     jQuery.each(reports, function(i, report) {
 	if (!logsFilterUnknowns && report['systems'].length == 0) {
 	    return;
 	}
 
 	if (logsFilterUnknowns && report['systems'].length == 0) {
+	    logsAddedLatest = Math.max(logsAddedLatest, report['submittedAt']);
 	    logsAdd(report);
 	    return;
 	}
 
 	if (logsFilterSystems.length == 0) {
+	    logsAddedLatest = Math.max(logsAddedLatest, report['submittedAt']);
 	    logsAdd(report);
 	    return;
 	}
 
 	for (i in report['systems']) {
 	    if (jQuery.inArray(report['systems'][i], logsFilterSystems) != -1) {
+		logsAddedLatest = Math.max(logsAddedLatest, report['submittedAt']);
 		logsAdd(report);
 		return;
 	    }
 	}
     });
+
+
+    if (sound && logsDisplayedLatest != 0 && logsAddedLatest > logsDisplayedLatest) {
+        settingsDoPlay();
+    }
+
+    logsDisplayedLatest = logsAddedLatest;
 }
 
 function logsAdd(report) {
@@ -50,6 +62,7 @@ function logsAdd(report) {
     cnt += '<td class="small">' + report['textInterpreted'] + ' <span class="text-muted pull-right">' + report['reporter'] + '</span></td>'
     cnt += '</tr>';
     $('#logs tr:first').after(cnt);
+
 }
 
 // ---------------------------------------------------------------

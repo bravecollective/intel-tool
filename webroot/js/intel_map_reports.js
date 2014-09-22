@@ -9,8 +9,7 @@ $(document).ready(function() {
     setInterval(function() {
 	console.log("Timer: clean reports");
 	reportsClean();
-	//logsRefresh();
-	applyData();
+	applyData(false);
     }, 60000);
 });
 
@@ -26,7 +25,7 @@ function reportsAdd(incoming) {
     }
 
     reports.push.apply(reports, incoming);
-    applyData();
+    applyData(true);
 }
 
 // ---------------------------------------------------------------

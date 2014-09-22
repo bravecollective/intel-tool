@@ -8,6 +8,7 @@ var settings = {};
 
 $(document).ready(function() {
     settingsLoad();
+    settingsBarRegister("s-alarm-audio-volume");
 });
 
 // --------------------------------------------------------
@@ -64,6 +65,9 @@ function settingsGet(key) {
     if (key == "s-background-image") {
 	return '7';
     }
+    if (key == "s-alarm-audio-volume") {
+	return 75;
+    }
 
     return '0';
 }
@@ -73,6 +77,9 @@ function settingsSet(key, value) {
     settingsSave();
     if (key == 's-background-image') {
 	settingsDoBackground();
+    }
+    if (key.lastIndexOf("s-alarm-audio", 0) === 0) {
+	settingsDoPlay();
     }
 }
 
@@ -84,6 +91,10 @@ function settingsUpdateUI() {
     settingsToggleButtons("s-map-action-select-unknown");
     settingsToggleButtons("s-logs-action-select-filter");
     settingsToggleButtons("s-logs-action-select-unknown");
+
+    settingsToggleButtons("s-alarm-audio");
+    settingsToggleButtons("s-alarm-audio-file");
+    settingsBarRender("s-alarm-audio-volume");
 }
 
 function settingsToggleButtons(id, text, textSelected) {
@@ -108,6 +119,30 @@ function settingsToggleButtons(id, text, textSelected) {
 
 // --------------------------------------------------------
 
+function settingsBarRegister(id) {
+    div = $('#' + id + "-div");
+    bar = $('#' + id + "-bar");
+
+    div.click(function(e){
+	w = div.width();
+	x = e.pageX - bar.offset().left;
+	p = Math.ceil(x / w * 100);
+
+	settingsSet(id, p);
+    });
+}
+
+function settingsBarRender(id) {
+    value = settingsGet(id);
+
+    div = $('#' + id + "-div");
+    bar = $('#' + id + "-bar");
+    w = div.width();
+    bar.css("width",  w * (value / 100));
+}
+
+// --------------------------------------------------------
+
 function settingsDoBackground() {
     var value = settingsGet('s-background-image');
     $('body').css("background", "#000000");
@@ -118,4 +153,31 @@ function settingsDoBackground() {
 	$('body').css('-o-background-size', 'cover');
 	$('body').css('background-size', 'cover');
     }
+}
+
+// --------------------------------------------------------
+
+function settingsDoPlay() {
+    if (settingsGet('s-alarm-audio') == 0) {
+	return;
+    }
+
+    file = settingsGet('s-alarm-audio-file');
+    snd = "";
+    if (file == 0) {
+	snd = "woop.mp3";
+    }
+    if (file == 1) {
+	snd = "school.mp3";
+    }
+    if (file == 2) {
+	snd = "grocery.mp3";
+    }
+    if (file == 3) {
+	snd = "blip.mp3";
+    }
+
+    var audio = new Audio("audio/" + snd );
+    audio.volume = settingsGet('s-alarm-audio-volume') / 100;
+    audio.play();
 }

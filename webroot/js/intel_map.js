@@ -20,11 +20,11 @@ function queueUIRefresh() {
 
 function applyFilter() {
     logsFilterRefresh();
-    applyData();
+    applyData(false);
 }
 
-function applyData() {
-    logsRefresh();
+function applyData(sound) {
+    logsRefresh(sound);
     applyUI();
 }
 
