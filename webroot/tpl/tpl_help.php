@@ -31,10 +31,12 @@
 	    Well, its a legend for the map. Take a look and make yourself familiar with the color coding being used.
 	    <h6>Map</h6>
 	    The map brings you back to the <a href="/">main view</a>. So does the BRAVE icon.
+	    <h6>Bridges</h6>
+	    Export HERO and known hostile jumpbridges into 3rd party tools.
 	    <h6>Uploader</h6>
 	    The uploader provides you a download link and authentication token required for running the <a href="?nav=uploader">Brave Intel Reporter</a>.
 	    <h6>&lt;Your Name&gt;</h6>
-	    The character name dropdown offers a link to change your application <a href="?nav=settings">settings</a> (background image, map behavior) and an option to logout.
+	    The character name dropdown offers a link to change your application <a href="?nav=settings">settings</a> (background image, map behavior, audio customization) and an option to logout.
 	</li>
     </ul>
 

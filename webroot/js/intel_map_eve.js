@@ -56,6 +56,10 @@ function eveLoadSuccess(response) {
 }
 
 function eveDraw() {
+    if (drawData['map'] === undefined) {
+	return;
+    }
+
     max = 0;
     dataraw = [];
 

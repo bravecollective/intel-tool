@@ -24,7 +24,9 @@ function jbLoad() {
 
 function jbLoadSuccess(response) {
     jbData = response;
-    drawMap();
+
+    if (typeof drawMap == 'function') drawMap();
+    if (typeof bridgesUpdate == 'function') bridgesUpdate();
 }
 
 function jbLoadError(error) {

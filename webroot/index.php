@@ -108,6 +108,14 @@ if ($authResult === false) {
 	return;
     }
 
+    if ($pNav == "bridges") {
+	tpl_header();
+	tpl_nav($authCharName, $pNav);
+	tpl_bridges();
+	tpl_footer(array('js/intel_settings.js', 'js/intel_bridges.js', 'js/intel_map_jb.js'));
+	return;
+    }
+
     tpl_header();
     tpl_nav_empty();
     tpl_error();

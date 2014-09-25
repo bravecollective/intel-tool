@@ -38,6 +38,10 @@ function tpl_help() {
     require("tpl/tpl_help.php");
 }
 
+function tpl_bridges() {
+    require("tpl/tpl_bridges.php");
+}
+
 // -------------------------------------------------
 
 function tpl_error() {
