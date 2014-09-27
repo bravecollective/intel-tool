@@ -25,7 +25,7 @@ function pollStart(adjust) {
     pollId = setInterval(function() {
 	console.log("Timer: polling");
 	$.ajax({
-	    async: false,
+	    async: true,
 	    url: pollUrl + "?since=" + pollLast,
 	    mimeType: "application/json",
 	    dataType: 'json',
