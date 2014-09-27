@@ -236,8 +236,10 @@ function showSystemDetails(obj, sid) {
     }
 
     jumps = 0;
-    if (eveData['jumps'][sid] !== undefined) {
-	jumps = eveData['jumps'][sid];
+    if (eveData['jumps'] !== undefined) {
+	if (eveData['jumps'][sid] !== undefined) {
+	    jumps = eveData['jumps'][sid];
+	}
     }
     cnt += '<b>Stats</b> (1h)<br>';
     cnt += "&nbsp;&nbsp;" + jumps + " jumps<br>";
@@ -245,16 +247,17 @@ function showSystemDetails(obj, sid) {
     kShips = 0;
     kPods = 0;
     kRats = 0;
-    if (eveData['kills'][sid] !== undefined) {
-	kShips = eveData['kills'][sid]['ships'];
-	kPods = eveData['kills'][sid]['pods'];
-	kRats = eveData['kills'][sid]['rats'];
+    if (eveData['kills'] !== undefined) {
+	if (eveData['kills'][sid] !== undefined) {
+	    kShips = eveData['kills'][sid]['ships'];
+	    kPods = eveData['kills'][sid]['pods'];
+	    kRats = eveData['kills'][sid]['rats'];
+	}
     }
     cnt += '<b>Kills</b> (1h)<br>';
     cnt += "&nbsp;&nbsp;" + kShips + " ships<br>";
     cnt += "&nbsp;&nbsp;" + kPods + " pods<br>";
     cnt += "&nbsp;&nbsp;" + kRats + " rats<br>";
-
     cnt += '</span>';
 
     $('#popsys-content').html(cnt);
@@ -268,7 +271,7 @@ function hideSystemDetails(obj, sid) {
 // ---------------------------------------------------------------
 
 function popHide(obj, overlay) {
-  $("#popsys").addClass('hide');
+    $("#popsys").addClass('hide');
 }
 
 function popShow(obj, overlay) {

@@ -89,6 +89,7 @@
 	    <li class="dropdown-header">Kills (1h)</li>
 	    <li><a href="#" onclick="eveMode = 2; eveDraw();">Ships</a></li>
 	    <li><a href="#" onclick="eveMode = 3; eveDraw();">Pods</a></li>
+	    <li><a href="#" onclick="eveMode = 5; eveDraw();">Ships &amp; pods</a></li>
 	    <li><a href="#" onclick="eveMode = 4; eveDraw();">Rats</a></li>
 	</ul>
     </li>

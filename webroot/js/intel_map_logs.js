@@ -6,6 +6,24 @@ var logsDisplayedLatest = 0;
 
 // ---------------------------------------------------------------
 
+function logsToggle() {
+    if ($('#map-log').hasClass('hide')) {
+	$('#map').css('width', '69%');
+	$('#map-heat').css('width', '69%');
+	$('#map-log-btn-hidden').addClass('hide');
+	$('#map-log').removeClass('hide');
+    } else {
+	$('#map-log').addClass('hide');
+	$('#map-log-btn-hidden').removeClass('hide');
+	$('#map').css('width', '98%');
+	$('#map-heat').css('width', '98%');
+    }
+
+    drawResize();
+}
+
+// ---------------------------------------------------------------
+
 function logsClear() {
     $("#logs > tr").each(function() {
 	if (!$(this).hasClass("keep")) {

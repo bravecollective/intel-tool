@@ -10,7 +10,8 @@ var drawReady = false;
 var drawSystemSize = 12;
 var drawSystemOffsetX = 28;
 var drawSystemOffsetY = 14;
-
+var drawXMax = 0;
+var drawYMax = 0;
 var drawScale = 1.0;
 
 var drawRegion = "Catch";
@@ -21,11 +22,10 @@ $(document).ready(function() {
     var resizeTimer = 0;
     $(window).on('resize', function(){
 	clearTimeout(resizeTimer);
-	resizeTimer = setTimeout(drawResize, 300);
+	resizeTimer = setTimeout(drawResize, 400);
     });
-    setTimeout(function(){
-	drawLoad(drawRegion);
-    }, 1000);
+
+    drawLoad(drawRegion);
 });
 
 // ---------------------------------------------------------------
@@ -33,9 +33,8 @@ $(document).ready(function() {
 function drawLoad(map) {
     drawReady = false;
     drawRegion = map;
-    drawClear();
     eveClear();
-
+    drawClear();
     $.ajax({
 	async: true,
 	url: drawUrl + '?region=' + map,
@@ -44,6 +43,7 @@ function drawLoad(map) {
 	error: drawLoadError,
 	success: drawLoadSuccess,
     });
+    evePoll();
 }
 
 function drawLoadSuccess(response) {
@@ -76,9 +76,17 @@ function drawResize() {
     var ctx = canvas.getContext('2d');
     ctx.scale(drawScale, drawScale);
 
+    drawXMax = 0;
+    drawYMax = 0;
+
     drawMapAll = true;
+
     drawMap();
     drawDivs();
+    eveResize();
+
+    $("#map-heat-legend").css('left', drawXMax - 100);
+    $("#map-heat-legend").css('top', drawYMax - 20 + div.offsetTop);
 }
 
 // ---------------------------------------------------------------
@@ -94,7 +102,6 @@ function drawMap() {
     if (!drawReady) {
 	return;
     }
-
 
     var ctx = document.getElementById('canvas').getContext('2d');
 
@@ -121,8 +128,6 @@ function drawMap() {
 
     drawSystems(ctx, false);
     drawSystemSelects(ctx);
-
-    eveDraw();
 }
 
 function drawConnections(ctx, shadow) {
@@ -217,9 +222,10 @@ function drawSystems(ctx, shadow) {
 	name = drawData['map']['systems'][i]['name'];
 	stn = drawData['map']['systems'][i]['hasStation'];
 
+	drawXMax = Math.max(drawXMax, Math.floor(x * drawScale) + drawSystemOffsetX);
+	drawYMax = Math.max(drawYMax, Math.floor(y * drawScale) + drawSystemOffsetY);
 
 	if (shadow === true) {
-
 	    ctx.fillStyle = '#000000';
 	    if (stn) {
 		ctx.fillRect (x + drawSystemOffsetX - drawSystemSize/2 - 2, y + drawSystemOffsetY - drawSystemSize/2 - 2, drawSystemSize + 4, drawSystemSize + 4);
@@ -324,7 +330,7 @@ function drawDivs() {
 
 	cnt = "";
 	cnt += "<div id='blink-" + name + "'";
-	cnt += " style='position: absolute; left: " +  dx + "px; top: " +  dy + "px; width: " + dw + "px; height: " + dh + "px; cursor: pointer; z-index:1; background-color: #FF0000; opacity: 0; " + style + "'";
+	cnt += " style='position: absolute; left: " +  dx + "px; top: " +  dy + "px; width: " + dw + "px; height: " + dh + "px; cursor: pointer; z-index:23; background-color: #FF0000; opacity: 0; " + style + "'";
 	cnt += " onclick='mapSystemClicked(\"" + name + "\");' onmouseover='showSystemDetails($(this), \"" + id + "\");' onmouseleave='hideSystemDetails($(this), \"" + id + "\");'></div>";
 	$("#map").append(cnt);
     }
