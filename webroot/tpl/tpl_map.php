@@ -1,12 +1,15 @@
 <?php if (!defined('INTEL')) die('go away'); ?>
 
 <!-- Map -->
-    <div id="map-heat" style="position:absolute; top:60px; bottom:5px; left:10px; width:69%; z-index:-3;">
+    <div id="map-heat" style="position:absolute; top:60px; bottom: 5px; left:10px; width: 69%; z-index: -3;">
+	<canvas id="canvas-heat"></canvas>
     </div>
-    <div id="map-heat-legend" style="position:absolute; bottom:5px; left:10px; width: 114px; height: 29px; z-index:-1;">
+
+    <div id="map-heat-legend" style="position:absolute; bottom:5px; left:10px; width: 114px; height: 29px; z-index: -2;">
 	<canvas id="canvas-heat-legend" width="110" height="25"></canvas>
     </div>
-    <div id="map" style="position:absolute; top:60px; bottom:5px; left:10px; width:69%; z-index:-1;">
+
+    <div id="map" style="position:absolute; top:60px; bottom:5px; left:10px; width:69%; z-index: -1;">
 	<canvas id="canvas"></canvas>
     </div>
 <!-- Map -->

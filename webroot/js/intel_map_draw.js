@@ -63,6 +63,9 @@ function drawLoadError(error) {
 // ---------------------------------------------------------------
 
 function drawResize() {
+
+    // -------------------
+
     var div = document.getElementById("map");
     dw = div.offsetWidth;
     dh = div.offsetHeight;
@@ -76,6 +79,18 @@ function drawResize() {
     var ctx = canvas.getContext('2d');
     ctx.scale(drawScale, drawScale);
 
+    // -------------------
+
+    var divheat = document.getElementById("map-heat");
+    dwh = divheat.offsetWidth;
+    dhh = divheat.offsetHeight;
+
+    var canvasheat = document.getElementById('canvas-heat');
+    canvasheat.width = dw;
+    canvasheat.height = dh;
+
+    // -------------------
+
     drawXMax = 0;
     drawYMax = 0;
 
@@ -83,7 +98,6 @@ function drawResize() {
 
     drawMap();
     drawDivs();
-    eveResize();
 
     $("#map-heat-legend").css('left', drawXMax - 100);
     $("#map-heat-legend").css('top', drawYMax - 20 + div.offsetTop);
@@ -128,6 +142,9 @@ function drawMap() {
 
     drawSystems(ctx, false);
     drawSystemSelects(ctx);
+
+    eveDraw();
+
 }
 
 function drawConnections(ctx, shadow) {

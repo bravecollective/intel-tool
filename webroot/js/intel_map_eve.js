@@ -1,7 +1,7 @@
 // ---------------------------------------------------------------
 
-var eveUrl = "/BraveIntelServer/evedata";
 var eveData = {};
+var eveUrl = "/BraveIntelServer/evedata";
 var eveInterval = 90000;
 var eveHeat;
 var eveMode = 0;
@@ -10,15 +10,7 @@ var eveId = 0;
 // ---------------------------------------------------------------
 
 $(document).ready(function() {
-    var config = {
-	container: document.getElementById('map-heat'),
-	radius: 80,
-	maxOpacity: .9,
-	minOpacity: 0,
-	blur: .75
-    };
-
-    eveResize();
+    eveHeat = simpleheat('canvas-heat');
 });
 
 // ---------------------------------------------------------------
@@ -65,38 +57,19 @@ function eveLoadError(error) {
 
 function eveClear() {
     if (eveHeat != null) {
-	eveHeat.setData({ max: 0, min: 0, data: [] });
+	eveHeat.clear();
+	eveHeat.resize();
+	eveHeat.draw();
     }
 }
 
-function eveResize() {
-    if (eveHeat != null) {
-	$('#map-heat :last-child').remove();
-	eveHeat.setData({ max: 0, min: 0, data: [] });
-	eveHeat = null;
-    }
-
-    var config = {
-	container: document.getElementById('map-heat'),
-	radius: 80 * drawScale,
-	maxOpacity: .9,
-	minOpacity: 0,
-	blur: .75,
-	onExtremaChange: eveLegend
-    };
-
-    eveHeat = h337.create(config);
-    $('#map-heat').css('position', 'absolute');
-
-    eveDraw();
-}
-function eveLegend(extremes) {
+function eveLegend(max) {
 
     var c = $("#map-heat-legend canvas")['0'];
     var ctx = c.getContext("2d");
 
     ctx.clearRect(0, 0, c.offsetWidth, c.offsetHeight);
-    if (extremes['max'] == 0) {
+    if (max == 0) {
 	return;
     }
 
@@ -106,10 +79,12 @@ function eveLegend(extremes) {
     var h = 6;
 
     var grd = ctx.createLinearGradient(l, 0, l + w, 0);
-    grd.addColorStop(0, "black");
-    for (i in extremes['gradient']) {
-	grd.addColorStop(i, extremes['gradient'][i]);
-    }
+    grd.addColorStop(0.0, "black");
+    grd.addColorStop(0.4, "blue");
+    grd.addColorStop(0.6, "cyan");
+    grd.addColorStop(0.7, "lime");
+    grd.addColorStop(0.8, "yellow");
+    grd.addColorStop(1.0, "red");
 
     ctx.fillStyle = grd;
     ctx.fillRect(l, t, w, h);
@@ -119,14 +94,13 @@ function eveLegend(extremes) {
 
     ctx.fillStyle = "#999999";
     ctx.textAlign="start"; 
-    ctx.fillText(extremes['min'], l - 2, t - 4);
+    ctx.fillText("0", l - 2, t - 4);
     ctx.textAlign="end"; 
-    ctx.fillText(extremes['max'], l + w + 2, t - 4);
+    ctx.fillText(max, l + w + 2, t - 4);
 }
 
 function eveDraw() {
-    if (eveHeat == null) {
-	eveResize();
+    if (eveHeat === undefined) {
 	return;
     }
 
@@ -134,15 +108,6 @@ function eveDraw() {
 	return;
     }
 
-    var dataheat = eveHeatData();
-    eveHeat.setData( {
-	min: 0,
-	max: Math.max(dataheat[1], 20),
-	data: dataheat[0]
-    });
-}
-
-function eveHeatData() {
     var max = 0;
     var dataraw = [];
 
@@ -181,7 +146,16 @@ function eveHeatData() {
 	    }
 	}
     }
-    return [dataraw, max];
+
+    eveHeat.data(dataraw);
+    eveHeat.max(max);
+    if (drawScale !== undefined) {
+	eveHeat.radius(60 * drawScale, 50 * drawScale);
+    }
+    eveHeat.resize();
+    eveHeat.draw();
+
+    eveLegend(max);
 }
 
 function getValueOrZero(value) {
@@ -194,7 +168,7 @@ function getValueOrZero(value) {
 function eveHeatDataAdd(dataraw, x, y, value, max) {
     if (value !== undefined && value != 0) {
 	max = Math.max(max, value);
-	dataraw.push({x: x, y: y, value: value });
+	dataraw.push([x, y, value]);
     }
     return max;
 }
