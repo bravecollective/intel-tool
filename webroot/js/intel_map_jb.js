@@ -25,7 +25,10 @@ function jbLoad() {
 function jbLoadSuccess(response) {
     jbData = response;
 
-    if (typeof drawMap == 'function') drawMap();
+    if (typeof drawMap == 'function') {
+	drawMapAll = true;
+	drawMap();
+    }
     if (typeof bridgesUpdate == 'function') bridgesUpdate();
 }
 
