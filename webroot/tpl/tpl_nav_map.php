@@ -1,6 +1,12 @@
 <?php if (!defined('INTEL')) die('go away'); ?>
 
 <!-- Navigation MAP -->
+    <form class="navbar-form navbar-left">
+	<input type="text" class="form-control text-right typeahead" placeholder="Search System" id="system-search" onkeypress="if (event.keyCode == 13) systemLucky(value);">
+    </form>
+
+    <li class="navbar-text" style="border-right:1px solid;">&nbsp;</li>
+
     <li class="navbar-text">Polling <button id="poller" class="btn btn-xs btn-info" onclick="pollToggle()">?</span></li>
     <li class="navbar-text">Uploaders <span id="uploader" class="label label-info">?</span></li>
 

@@ -1,11 +1,68 @@
 // ---------------------------------------------------------------
 
+var queryURL = "/BraveIntelServer/systemsearch?q=";
+
 var timerUI = 0;
 
 $(document).ready(function() {
     fixLegend();
+    prepareTypeAhead();
     applyFilter();
 });
+
+// ---------------------------------------------------------------
+
+function prepareTypeAhead() {
+
+    var bloodsystem = new Bloodhound(
+	{
+	    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('system'),
+	    queryTokenizer: Bloodhound.tokenizers.whitespace,
+	    remote: { url: queryURL + "%QUERY" }
+	}
+    );
+
+    bloodsystem.initialize();
+
+    $('#system-search').typeahead(
+	{
+	    hint: false,
+	    highlight: false,
+	    minLength: 3
+	}, {
+	    name: 'systems',
+	    displayKey: 'system',
+	    source: bloodsystem.ttAdapter(),
+	    templates: {
+		suggestion: Handlebars.compile('<p class="text-right"><strong>{{system}}</strong> <small>({{region}})</small></p>')
+	    }
+	}
+    ).on('typeahead:selected', function(obj, val) {
+	var system = val['system'];
+	var region = val['region'].replace(/\ /g, '_');
+	drawLoad(region, system);
+    });
+}
+
+function systemLucky(value) {
+    if (value.length < 3) {
+	return;
+    }
+
+    $.ajax({
+	async: true,
+        url: queryURL + value,
+	mimeType: "application/json",
+	dataType: 'json',
+	success: function (response) {
+	    if (response.length == 0) {
+		return;
+	    }
+	    $('#system-search').val(response[0]['system']);
+	    drawLoad(response[0]['region'].replace(/\ /g, '_'), response[0]['system']);
+	},
+    });
+}
 
 // ---------------------------------------------------------------
 

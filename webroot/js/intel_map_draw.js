@@ -14,7 +14,9 @@ var drawXMax = 0;
 var drawYMax = 0;
 var drawScale = 1.0;
 
-var drawRegion = "Catch";
+var drawRegion = "";
+
+var drawMarkerSystem = "";
 
 // ---------------------------------------------------------------
 
@@ -25,14 +27,22 @@ $(document).ready(function() {
 	resizeTimer = setTimeout(drawResize, 400);
     });
 
-    drawLoad(drawRegion);
+    drawLoad("Catch");
 });
 
 // ---------------------------------------------------------------
 
-function drawLoad(map) {
+function drawLoad(map, system) {
+    drawMarkerSystem = system;
+
+    if (drawRegion == map) {
+	drawMarker();
+	return;
+    }
+
     drawReady = false;
     drawRegion = map;
+
     eveClear();
     drawClear();
     $.ajax({
@@ -50,6 +60,7 @@ function drawLoadSuccess(response) {
     drawData = response;
     drawReady = true;
     drawResize();
+    drawMarker();
 }
 
 function drawLoadError(error) {
@@ -318,6 +329,28 @@ function drawSystemSelects(ctx) {
 		ctx.stroke();
 	    }
 	}
+    }
+}
+
+function drawMarker() {
+    border = 60;
+    target = drawMarkerSystem;
+    drawMarkerSystem = "";
+
+    for (i in drawData['map']['systems']) {
+	name = drawData['map']['systems'][i]['name'];
+	if (name != target) {
+	    continue;
+	}
+
+	x = Math.floor(drawData['map']['systems'][i]['x']);
+	y = Math.floor(drawData['map']['systems'][i]['y']);
+
+	dx = (x + drawSystemOffsetX) * drawScale - border/2;
+	dy = (y + drawSystemOffsetY) * drawScale - border/2;
+
+	$("#marker").css("left", dx).css("top", dy);
+	$("#marker").animate({opacity: 1}, 200).animate({opacity: 0}, 7000);
     }
 }
 

@@ -10,6 +10,7 @@
     </div>
 
     <div id="map" style="position:absolute; top:60px; bottom:5px; left:10px; width:69%; z-index: -1;">
+	<img id="marker" src="img/marker.png" style="position:absolute; top:10px; left:10px; z-index: 23; opacity:0;;">
 	<canvas id="canvas"></canvas>
     </div>
 <!-- Map -->
