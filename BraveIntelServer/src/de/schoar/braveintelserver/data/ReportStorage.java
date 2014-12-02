@@ -51,10 +51,10 @@ public class ReportStorage extends TimerHelper {
 		List<Report> matched = new LinkedList<Report>(reports);
 
 		for (Report r : new LinkedList<Report>(matched)) {
-			// if (!r.isValid()) {
-			// matched.remove(r);
-			// continue;
-			// }
+			if (!r.isValid()) {
+				matched.remove(r);
+				continue;
+			}
 
 			if (r.getSubmittedAt() <= from) {
 				matched.remove(r);

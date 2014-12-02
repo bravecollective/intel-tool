@@ -20,6 +20,7 @@ public class Analyzer {
 	private Set<String> ignores = new TreeSet<String>();
 	private Set<String> highlights = new TreeSet<String>();
 	private Set<String> systems = new TreeSet<String>();
+	private Set<String> bans = new TreeSet<String>();
 	private Map<String, String> replaces = new HashMap<String, String>();
 
 	private final Pattern patternWords = Pattern
@@ -29,11 +30,24 @@ public class Analyzer {
 			.compile("http(s)?://[a-zA-Z0-9\\-\\.\\/\\?\\&\\%\\=\\_]+");
 
 	public void load() {
+		bans.clear();
+		new LineReader() {
+			@Override
+			public void line(String line) {
+				bans.add(line);
+			}
+		}.load("Bans", C.DATA_DIR + "/filters/bans.lst");
+
 		systems.clear();
 		new LineReader() {
 			@Override
 			public void line(String line) {
-				systems.add(line);
+
+				String split[] = line.split("=");
+				if (split.length != 2) {
+					return;
+				}
+				systems.add(split[0]);
 			}
 		}.load("Solar Systems", C.DATA_DIR + "/filters/systems.lst");
 
@@ -67,7 +81,7 @@ public class Analyzer {
 
 	}
 
-	public void analyze(Report report) {
+	public boolean analyze(Report report) {
 		String line = report.getTextRaw() + " ";
 		line = line.replaceAll("<", "&lt;");
 		line = line.replaceAll(">", "&gt;");
@@ -95,6 +109,10 @@ public class Analyzer {
 			String all = matcher.group(0);
 			String part = matcher.group(1);
 			String needle = part.toLowerCase();
+
+			if (findInList(bans, needle)) {
+				return false;
+			}
 
 			if (findInList(ignores, needle)) {
 				sb.append(all);
@@ -126,6 +144,7 @@ public class Analyzer {
 		}
 
 		report.setTextInterpreted(sb.toString());
+		return true;
 	}
 
 	private List<String> findMatchingSystems(String needle) {

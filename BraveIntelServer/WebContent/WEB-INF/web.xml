@@ -64,4 +64,15 @@
 		<servlet-name>EveDataServlet</servlet-name>
 		<url-pattern>/evedata</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<description></description>
+		<display-name>SystemSearchServlet</display-name>
+		<servlet-name>SystemSearchServlet</servlet-name>
+		<servlet-class>de.schoar.braveintelserver.servlet.SystemSearchServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SystemSearchServlet</servlet-name>
+		<url-pattern>/systemsearch</url-pattern>
+	</servlet-mapping>
 </web-app>

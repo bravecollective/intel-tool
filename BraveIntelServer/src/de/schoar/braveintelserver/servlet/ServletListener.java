@@ -7,6 +7,7 @@ import de.schoar.braveintelserver.C;
 import de.schoar.braveintelserver.auth.SessionLookup;
 import de.schoar.braveintelserver.data.MapStorage;
 import de.schoar.braveintelserver.data.ReportStorage;
+import de.schoar.braveintelserver.data.SolarSystemStorage;
 import de.schoar.braveintelserver.eveapi.EveJumpDownloader;
 import de.schoar.braveintelserver.eveapi.EveKillDownloader;
 import de.schoar.braveintelserver.misc.Analyzer;
@@ -22,6 +23,7 @@ public class ServletListener implements ServletContextListener {
 	private static final ReportStorage reports = new ReportStorage();
 	private static final Analyzer analyzer = new Analyzer();
 	private static final MapStorage maps = new MapStorage();
+	private static final SolarSystemStorage systems = new SolarSystemStorage();
 
 	private static final ExpiringCounter uploaderCount = new ExpiringCounter(
 			C.UPLOADER_COUNT_INTERVAL, C.UPLOADER_COUNT_EXPIRE);
@@ -35,6 +37,7 @@ public class ServletListener implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent sce) {
 		maps.load();
 		analyzer.load();
+		systems.load();
 
 		reports.inject("kiu Nakamura",
 				"The Brave Intel Map server has been restarted. Sorry for the inconvenience...");
@@ -75,6 +78,10 @@ public class ServletListener implements ServletContextListener {
 
 	public static ReportStorage getReportStorage() {
 		return reports;
+	}
+
+	public static SolarSystemStorage getSystemStorage() {
+		return systems;
 	}
 
 	public static Analyzer getAnalyzer() {
