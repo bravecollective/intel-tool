@@ -1,9 +1,9 @@
 <?php if (!defined('INTEL')) die('go away'); ?>
 
 <!-- Navigation MAP -->
-    <form class="navbar-form navbar-left">
+    <span class="navbar-form navbar-left">
 	<input type="text" class="form-control text-right typeahead" placeholder="Search System" id="system-search" onkeypress="if (event.keyCode == 13) systemLucky(value);">
-    </form>
+    </span>
 
     <li class="navbar-text" style="border-right:1px solid;">&nbsp;</li>
 
