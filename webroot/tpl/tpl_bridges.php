@@ -23,7 +23,6 @@
 		    <li>Warp to the jumpbridge (or a tactical first)</li>
 		    <li>Be within 2500m, right click the jumpbridge and select <i>jump</i></li>
 		</ol>
-		Be aware that in contrast to a regular gate there is <b><span class="text-danger">no</span> invulnerability timer</b> on the other side - warp out immediately.
 		<h6>Report wrong data</h6>
 		If you find any errors or have intel on hostile bridge locations, get in touch with <a href="http://evewho.com/pilot/kiu+Nakamura">kiu Nakamura</a> or <a href="http://evewho.com/pilot/Serinus+Gareth">Serinus Gareth</a>.
 		<h6>3rd party tools</h6>
