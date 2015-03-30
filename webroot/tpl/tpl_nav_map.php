@@ -13,6 +13,8 @@
     <li class="dropdown">
 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Region <b class="caret"></b></a>
 	<ul class="dropdown-menu"  style="overflow: hidden; overflow-y: auto; max-height: 400px;">
+<li><a href="#" onclick="drawLoad('Aridia');">Aridia</a></li>
+<li><a href="#" onclick="drawLoad('Delve');">Delve</a></li>
 <li><a href="#" onclick="drawLoad('Catch');">Catch</a></li>
 <li><a href="#" onclick="drawLoad('Providence');">Providence</a></li>
 <li class="divider"></li>
