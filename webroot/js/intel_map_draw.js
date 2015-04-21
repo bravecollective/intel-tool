@@ -27,7 +27,11 @@ $(document).ready(function() {
 	resizeTimer = setTimeout(drawResize, 400);
     });
 
-    drawLoad("Fountain");
+    var map = $.cookie('brave-intel-region');
+    if (!map) {
+	map = "Fountain";
+    }
+    drawLoad(map);
 });
 
 // ---------------------------------------------------------------
@@ -42,6 +46,8 @@ function drawLoad(map, system) {
 
     drawReady = false;
     drawRegion = map;
+
+    $.cookie('brave-intel-region', map, { path: '/' });
 
     eveClear();
     drawClear();
