@@ -27,7 +27,7 @@ $(document).ready(function() {
 	resizeTimer = setTimeout(drawResize, 400);
     });
 
-    drawLoad("Aridia");
+    drawLoad("Fountain");
 });
 
 // ---------------------------------------------------------------
