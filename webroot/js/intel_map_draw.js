@@ -47,7 +47,7 @@ function drawLoad(map, system) {
     drawReady = false;
     drawRegion = map;
 
-    $.cookie('brave-intel-region', map, { path: '/' });
+    $.cookie('brave-intel-region', map, { expires: 356, path: '/' });
 
     eveClear();
     drawClear();
